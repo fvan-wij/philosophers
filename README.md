@@ -1,3 +1,6 @@
-Philosophers
+# Philosophers
 
+## Goals
+
+### To do's
 
