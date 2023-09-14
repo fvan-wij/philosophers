@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:46:37 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/06/27 12:59:42 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/09/14 21:13:49 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 
-// GET_NEXT_LINE
+// 				GET_NEXT_LINE
 char			*get_next_line(int fd);
 int				ft_strchr_index(const char *s, int c);
 
-// PRINTF
+// 				PRINTF
 int				ft_printf(const char *s, ...);
 int				ft_putnbr(int n);
 int				ft_putchar(char c);
@@ -87,13 +87,22 @@ int				ft_put_cap_hex(unsigned int n);
 int				ft_putadr(unsigned long n);
 int				ft_printspecifier(int specifier, va_list args);
 
-// CUSTOM FUNCTIONS
+// 				CUSTOM FUNCTIONS
 char			*ft_strjoin_and_free(char *s1, char *s2);
 char			**ft_split_nl(char const *s, char c);
 int				ft_word_counter_quotations(char const *s, char c);
 char			**ft_split_quotations(char const *s, char c);
 int				ft_find_envp_path_index(char *envp[]);
-void			ft_del_2d(char **arr);
 int				ft_strisalpha(char *str);
+char 			*ft_getenv(char *var_name, char **env);
+
+//				2D_STRING_FUNCTIONS
+void			ft_putstr_2d(char **arr);
+void			ft_free_2d(char **arr);
+char			**ft_strreplace_2d(char **src, char *str, int index);
+char			**ft_strremove_2d(char **src, int index);
+char			**ft_strcpy_2d(char **array);
+char			**ft_strappend_2d(char **src, char *str);
+void			ft_putstr_2d(char **arr);
 
 #endif

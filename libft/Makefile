@@ -65,8 +65,15 @@ SRC			:=	ft_atoi.c \
 			ft_word_counter_quotations.c \
 			ft_split_quotations.c \
 			ft_find_envp_path_index.c \
-			ft_del_2d.c \
+			ft_free_2d.c \
 			ft_strisalpha.c \
+			ft_getenv.c \
+			\
+			ft_strremove_2d.c \
+			ft_strreplace_2d.c \
+			ft_strappend_2d.c \
+			ft_strcpy_2d.c \
+			ft_putstr_2d.c \
 
 			
 # Regular Colors #############################################

@@ -1,9 +1,10 @@
 NAME		:=	philo
-FLAGS		:= 	-Wall -Wextra -Werror
+FLAGS		:= 	-Wall -Wextra -Werror -pthread
 LIBS		:= 	./libft/libft.a
 HEADERS		:= 	-I libft -I includes
 SRC			:= 	main.c \
 				time.c \
+				init.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
