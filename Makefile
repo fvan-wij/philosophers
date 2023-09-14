@@ -29,6 +29,8 @@ endif
 
 all: $(NAME)
 
+run: $(NAME)
+
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
 	@$(CC) $^ $(LIBS) -o $(NAME)
