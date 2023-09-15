@@ -2,40 +2,52 @@
 #include "../libft/libft.h"
 #include <pthread.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 
-int pillen = 0;
+typedef struct s_test {
+	pthread_mutex_t mutex;
+	int*	result;
+} t_test;
 
 void	*routine(void* arg)
 {
-	int i;
+	t_test *test = (t_test*)arg;
+	int	value;
 
-	i = 0;
-	while (i < 1000000)
-	{
-		pthread_mutex_lock((pthread_mutex_t*)arg);
-		pillen++;
-		i++;
-		pthread_mutex_unlock((pthread_mutex_t*)arg);
-	}
-	return (0);
+	pthread_mutex_lock(&test->mutex);
+	value = (rand() % 6) + 1;
+	*test->result = value;
+	pthread_mutex_unlock(&test->mutex);
+	return NULL;
 }
 
 int	main(int argc, char *argv[])
 {
 	t_philo		philo;
-	pthread_t	t1, t2;
-	pthread_mutex_t	mutex;
+	t_test test;
 
+	test.result = malloc(sizeof(int));
 	init_philosophers(argc, argv, &philo);
-	pthread_mutex_init(&mutex, NULL);
-	if (pthread_create(&t1, NULL, &routine, &mutex) != 0)
-		return (ft_putstr_fd("Error creating thread!\n", STDERR_FILENO), 1);
-	if (pthread_create(&t2, NULL, &routine, &mutex) != 0)
-		return (ft_putstr_fd("Error creating thread!\n", STDERR_FILENO), 1);
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
-	pthread_mutex_destroy(&mutex);
-	ft_printf("pillen: %d\n", pillen);
-
+	srand(time(NULL));
+	pthread_t	thread[philo.number_of_philosophers];
+	pthread_mutex_init(&test.mutex, NULL);
+	int i = 0;
+	while (i < philo.number_of_philosophers)
+	{
+		if (pthread_create(&thread[i], NULL, &routine, &test.mutex) != 0)
+			return (ft_putstr_fd("Error creating thread!\n", STDERR_FILENO), 1);
+		i++;
+	}
+	i = 0;
+	while (i < philo.number_of_philosophers)
+	{
+		if (pthread_join(thread[i], NULL) != 0)
+			return (ft_putstr_fd("Error joining thread!\n", STDERR_FILENO), 2);
+		ft_printf("Thread[%d] result: %d\n", i, *test.result);
+		i++;
+	}
+	pthread_mutex_destroy(&test.mutex);
+	free(test.result);
 	return (0);
 }
