@@ -24,16 +24,29 @@ int gettimeofday(struct timeval *tv, struct timezone *tz):
 The tv argument is a struct timeval.
 The tz argument is a struct timezone.
 
-**Thread creation and mutex locking**
-int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_routine) (void*), void *arg)*
-Starts a new thread in the calling process. The new thread starts execution by invoking the start_routine(); arg is passed as the sole argument of start_routine();
+**Thread creation and thread joining**
 
+- int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_routine) (void*), void *arg) ->
+Starts a new thread in the calling process. The new thread starts execution by invoking the start_routine(); 
+Arg is passed as the sole argument of start_routine(), arg can be casted to the struct type pthread_mutex_t to access the mutex within the thread.
+Returns 0 on succes; returns error number otherwise.
 
-pthread_join -> Waits for the thread to finish and joins it with the main thread.
+- int pthread_join(pthread_t thread, void * *retval) -> 
+Waits for the thread to finish and joins it with the main thread. If the thread has already been terminated, then pthread_join returns immediately.
+The thread specified by pthread_t thread, must be joinable.
+Returns 0 on succes; returns error number otherwise.
+
+P.s. Joining with a thread that has previously been joined results in undefined behaviour.
+Failure to join with a thread that is joinable creates a zombie thread.
+All of the threads in a process are peers and can join with any other thread in the process.
+
+**Mutex:**
+Locks a section of a code by using different states such as a locked state and an unlocked state.
+
+- int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr);
+Destroys and initializes a mutex.
 
 **Race Conditions:**
 Multiple threads reading and writing to the same variable, possibly causing faulty data.
 
-**Mutex:**
-Locks a section of a code by using different states such as a locked state and an unlocked state.
 
