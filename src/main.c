@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 
 typedef struct s_test {
 	pthread_mutex_t mutex;
@@ -27,6 +28,11 @@ int	main(int argc, char *argv[])
 	t_philo		philo;
 	t_test test;
 
+	struct timeval tv;
+	suseconds_t init;
+
+	gettimeofday(&tv, NULL);
+	init = tv.tv_usec;
 	test.result = malloc(sizeof(int));
 	init_philosophers(argc, argv, &philo);
 	srand(time(NULL));
@@ -49,5 +55,7 @@ int	main(int argc, char *argv[])
 	}
 	pthread_mutex_destroy(&test.mutex);
 	free(test.result);
+	// usleep(10000);
+	time_ellapsed_in_ms(init);
 	return (0);
 }

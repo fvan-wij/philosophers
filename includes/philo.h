@@ -1,6 +1,7 @@
 #ifndef PHILO_H 
 # define PHILO_H 
 
+# include <sys/time.h>
 //###############################################################
 //		DATA_STRUCTURES
 //###############################################################
@@ -21,8 +22,7 @@ typedef struct 	s_philo {
 //			main.c
 
 //			time.c
-void		print_time();
-long int	delta_time(long int init_ms);
+long int	time_ellapsed_in_ms(suseconds_t init);
 
 //			init.c
 int 		ft_isarrnum(char *arr[]);
