@@ -9,8 +9,10 @@
 ### To do's
 
 - [x] Write parser for argv arguments: number_of_philosophers, time_to_die, time_to_eat, time_to_sleep and optional n_of_times_each_philosopher_must_eat
-- [ ] Research external functions (usleep, gettimeofday, pthread_create, pthread_detach, pthread_join, pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock);
-- [ ] Figure a way to create n of threads where n = amount of philosophers.
+- [x] Research external functions (usleep, gettimeofday, pthread_create, pthread_detach, pthread_join, pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock);
+- [x] Figure a way to create n of threads where n = amount of philosophers.
+- [x] Create appropriate data structures where t_simulation contains data about the simulation rules and an array of t_philo structs where each t_philo contains data about the thread and current state. 
+- [ ] Create timestamp system that displays the actions and states of each philosopher.
 
 ### Sources
 

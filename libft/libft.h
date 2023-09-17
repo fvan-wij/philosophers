@@ -6,7 +6,7 @@
 /*   By: fvan-wij <fvan-wij@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:46:37 by fvan-wij          #+#    #+#             */
-/*   Updated: 2023/09/14 21:13:49 by flip          ########   odam.nl         */
+/*   Updated: 2023/09/17 22:40:30 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char 			*ft_getenv(char *var_name, char **env);
 
 //				2D_STRING_FUNCTIONS
 void			ft_putstr_2d(char **arr);
+int 			ft_isdigit_2d(char *arr[]);
 void			ft_free_2d(char **arr);
 char			**ft_strreplace_2d(char **src, char *str, int index);
 char			**ft_strremove_2d(char **src, int index);

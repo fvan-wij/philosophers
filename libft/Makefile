@@ -74,6 +74,7 @@ SRC			:=	ft_atoi.c \
 			ft_strappend_2d.c \
 			ft_strcpy_2d.c \
 			ft_putstr_2d.c \
+			ft_isdigit_2d.c \
 
 			
 # Regular Colors #############################################

@@ -5,6 +5,7 @@ HEADERS		:= 	-I libft -I includes
 SRC			:= 	main.c \
 				time.c \
 				init.c \
+				threads.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
