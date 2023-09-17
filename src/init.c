@@ -3,18 +3,18 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int ft_isarrnum(char *arr[])
+int ft_isdigit_2d(char *arr[])
 {
 	int i;
 	int	j;
 
-	i = 0;
+	i = 1;
 	j = 0;
 	while (arr[i])
 	{
 		while (arr[i][j])	
 		{
-			if (!ft_isalnum(arr[i][j]))
+			if (ft_isdigit(arr[i][j]) == 0)
 				return(ft_putstr_fd("Given arguments should contain numbers only.", STDERR_FILENO), -1);
 			j++;
 		}
@@ -33,7 +33,7 @@ int	is_correct_argc(int argc)
 
 void	init_philosophers(int argc, char *argv[], t_philo *philo)
 {
-	if (!is_correct_argc(argc) && !ft_isarrnum(argv))
+	if (is_correct_argc(argc) == -1 || ft_isdigit_2d(argv) == -1)
 		exit(1);
 	philo->number_of_philosophers = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
