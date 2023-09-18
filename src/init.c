@@ -2,6 +2,7 @@
 #include "../libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 static int	is_correct_argc(int argc)
 {
@@ -25,9 +26,9 @@ static void	init_philosopher_states(t_simulation *sim)
 	i = 0;
 	while (i < sim->number_of_philosophers)
 	{
-		sim->philo[i].is_eating = false;
-		sim->philo[i].is_sleeping = false;
-		sim->philo[i].is_pondering = false;
+		sim->philo[i].state = UNITIALIZED;
+		sim->philo[i].sim = sim;
+		sim->philo[i].philo_id = i;
 		i++;
 	}
 }
@@ -44,11 +45,11 @@ void	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 		sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	if (validate_input(sim) == -1)
 		exit(1);
-	sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
+	// sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
 	if (!sim->philo)
 		exit(1);
 	init_philosopher_states(sim);
-	ft_printf("number_of_philosophers: %s\ntime_to_die: %s\ntime_to_eat: %s\ntime_to_sleep: %s\n(optional)number_of_times_each_philosopher_must_eat: %s\n",
-				argv[1], argv[2], argv[3], argv[4], argv[5]);
+	// ft_printf("number_of_philosophers: %s\ntime_to_die: %s\ntime_to_eat: %s\ntime_to_sleep: %s\n(optional)number_of_times_each_philosopher_must_eat: %s\n",
+	// 			argv[1], argv[2], argv[3], argv[4], argv[5]);
 }
 

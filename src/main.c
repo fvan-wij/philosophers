@@ -2,11 +2,14 @@
 #include "../libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 int	main(int argc, char *argv[])
 {
 	t_simulation	sim;
+	t_philo			philo[ft_atoi(argv[1])];
 
+	sim.philo = philo;
 	init_simulation_data(argc, argv, &sim);
 	pthread_mutex_init(&sim.mutex, NULL);
 	create_threads(&sim);

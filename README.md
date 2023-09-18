@@ -12,7 +12,7 @@
 - [x] Research external functions (usleep, gettimeofday, pthread_create, pthread_detach, pthread_join, pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock);
 - [x] Figure a way to create n of threads where n = amount of philosophers.
 - [x] Create appropriate data structures where t_simulation contains data about the simulation rules and an array of t_philo structs where each t_philo contains data about the thread and current state. 
-- [ ] Create timestamp system that displays the actions and states of each philosopher.
+- [ ] Create timestamp system that displays the actions and states of each philosopher. 
 
 ### Sources
 
