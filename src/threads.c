@@ -35,7 +35,7 @@ int	create_threads(t_simulation *sim)
 	i = 0;
 	while (i < sim->number_of_philosophers)
 	{
-		if (pthread_create(&sim->philo[i].thread, NULL, &routine, &sim->philo[i]) != 0)
+		pthread_create(&sim->philo[i].thread, NULL, &routine, &sim->philo[i]) != 0)
 			return (ft_putstr_fd("Error creating thread!\n", STDERR_FILENO), -1);
 		i++;
 	}

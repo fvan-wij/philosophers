@@ -88,6 +88,7 @@ directory;
 -capabilities (Linux-specific, described in Chapter 39); and
 -stack (local variables and function call linkage information).
 
+- Pthreads data types
 |Data type|Description|
 |---------|-----------|
 |pthread_t| Thread identifier|
@@ -98,4 +99,24 @@ directory;
 |pthread_key_t|Key for thread-specific data|
 |pthread_once_t|One-time initialization control context|
 |pthread_attr_t|Thread attributes object|
-|---------------------|
+
+- Threads and errno
+In threaded programs, each thread has its own errno value and can be retrieved individually per thread in the traditional UNIX manner.
+All Pthreads functions return 0 on success or a positive value on failure (==errno)
+
+- Compiling Pthread programs
+On Linux, Pthread programs must be compiled with cc -pthread. The effects of this includes:
+The _ REENTRANT preprocessor macro is defined. This causes the declaratoins of a few reentrant functoins to be exposed.
+The program is linked with libpthread library (the equivalent of -lpthread).
+
+- Important note on the Pthread return value
+Caution is required when using a cast integer as the return value of a threads's routine function. If the value to be returned is similar to the PTHREAD_CANCELED value, it will wrongly appear that the thread was canceled.
+
+- Critical section
+A section of code that accesses a shared resource and whose execution should be atomic (itsss execution should not be interrupted by another thread that simultaneously accesses the same share resource)
+
+- Statically vs dynamically allocating a mutex
+statically -> pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+dynamically -> pthread_mutex_init(&mutex);
+
+
