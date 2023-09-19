@@ -51,4 +51,51 @@ Destroys and initializes a mutex.
 **Race Conditions:**
 Multiple threads reading and writing to the same variable, possibly causing faulty data.
 
+**From the Linux Programming Interface (By Michael Kerrisk)**
+- Threads vs. Processes
+Processes have some limitations when compared to threads.
+It is for instance difficult to share information between processes. Since parent and child don't share memory, you have to use some form of interprocess comunication.
+Process creation with fork() is relatively expensive and time-consuming.
+Threads on the other hand, can share information easy and fsat. It's just a matter of copying data into shared variables. This can however cause issues, and to avoid that, one should employ certain synchronization techniques.
+Thread creation is also faster than process creation (usually 10x).
 
+- Besides global memory, threads share a number of other attributes:
+-process ID and parent process ID; 
+-process group ID and session ID;
+-controlling terminal;
+-process credentials (user and group IDs);
+-open file descriptors;
+-record locks created using fcntl();
+-signal dispositions;
+-file system–related information: umask, current working directory, and root
+directory;
+-interval timers (setitimer()) and POSIX timers (timer_create());
+-System V semaphore undo (semadj) values (Section 47.8);
+-resource limits;
+-CPU time consumed (as returned by times());
+-resources consumed (as returned by getrusage()); and
+-nice value (set by setpriority() and nice()).
+620 Chapter 29
+- Among the attributes that are distinct for each thread are the following:
+-thread ID (Section 29.5);
+-signal mask;
+-thread-specific data (Section 31.3);
+-alternate signal stack (sigaltstack());
+-the errno variable;
+-floating-point environment (see fenv(3));
+-realtime scheduling policy and priority (Sections 35.2 and 35.3);
+-CPU affinity (Linux-specific, described in Section 35.4);
+-capabilities (Linux-specific, described in Chapter 39); and
+-stack (local variables and function call linkage information).
+
+|Data type|Description|
+|---------|-----------|
+|pthread_t| Thread identifier|
+|pthread_mutex_t|Mutex|
+|pthread_mutexattr_t|Mutex attributes object|
+|pthread_cond_t|Condition variable|
+|pthread_condattr_t|Condition variable attributes object|
+|pthread_key_t|Key for thread-specific data|
+|pthread_once_t|One-time initialization control context|
+|pthread_attr_t|Thread attributes object|
+|---------------------|
