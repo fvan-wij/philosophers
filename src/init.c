@@ -29,6 +29,16 @@ static void	init_philosopher_states(t_simulation *sim)
 		sim->philo[i].state = UNITIALIZED;
 		sim->philo[i].sim = sim;
 		sim->philo[i].philo_id = i;
+		if (i == 0)
+		{
+			sim->philo[i].fork[LEFT] = sim->forks[i];
+			sim->philo[i].fork[RIGHT] = sim->forks[sim->number_of_philosophers];
+		}
+		else 
+		{
+			sim->philo[i].fork[LEFT] = sim->forks[i];
+			sim->philo[i].fork[RIGHT] = sim->forks[i - 1];
+		}
 		i++;
 	}
 }
@@ -41,15 +51,13 @@ void	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 	sim->time_to_die = ft_atoi(argv[2]);
 	sim->time_to_eat = ft_atoi(argv[3]);
 	sim->time_to_sleep = ft_atoi(argv[4]);
+	sim->is_dead = 0;
 	if (argv[5])
 		sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	if (validate_input(sim) == -1)
 		exit(1);
-	// sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
-	if (!sim->philo)
-		exit(1);
+	sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
 	init_philosopher_states(sim);
-	// ft_printf("number_of_philosophers: %s\ntime_to_die: %s\ntime_to_eat: %s\ntime_to_sleep: %s\n(optional)number_of_times_each_philosopher_must_eat: %s\n",
-	// 			argv[1], argv[2], argv[3], argv[4], argv[5]);
+	sim->forks = ft_calloc(sim->number_of_philosophers, sizeof(t_fork));
 }
 

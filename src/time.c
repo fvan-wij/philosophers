@@ -25,7 +25,3 @@ size_t	start_timer()
 	return (start_time);
 }
 
-// void	state_change_timestamp(t_simulation	*sim)
-// {
-// 	
-// }

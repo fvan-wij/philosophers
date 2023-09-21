@@ -2,7 +2,7 @@
 # define PHILO_H 
 
 # include <pthread.h>
-#include <stddef.h>
+# include <stddef.h>
 # include <sys/time.h>
 # include <stdbool.h>
 
@@ -19,20 +19,24 @@ typedef enum e_state {
 	UNITIALIZED,
 }	t_state;
 
-typedef enum e_fork {
+typedef pthread_mutex_t t_fork;
+
+typedef enum e_fork_index {
 	LEFT,
 	RIGHT,
-} 	t_fork;
+} 	t_fork_index;
 
 //				philo struct -> contains data about the state of each seperate philosopher;
 typedef struct s_philo {
 	pthread_t			thread;	
+	pthread_mutex_t		start_mutex;
+	t_fork				fork[2];
 	size_t				start_time;
 	int					state;
 	int					philo_id;
-	// pthread_mutex_t		fork[2];
 	struct s_simulation	*sim;
 }				t_philo;
+
 
 //				main struct -> contains data about the rules of the simulation;
 typedef struct 	s_simulation {
@@ -42,8 +46,11 @@ typedef struct 	s_simulation {
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
 	int				number_of_available_forks;
-	pthread_mutex_t mutex;
+	int				is_dead;
+	pthread_mutex_t state_mutex;
 	t_philo			*philo;
+	pthread_t		monitor;
+	t_fork			*forks;
 }				t_simulation;
 
 //###############################################################
@@ -60,8 +67,9 @@ size_t		start_timer();
 void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 
 //			threads.c
-int			create_threads(t_simulation *sim);
-int			join_threads(t_simulation *sim);
+int			create_philo_threads(t_simulation *sim);
+int			join_philo_threads(t_simulation *sim);
+int 		monitor_routine(t_simulation *sim);
 
 
 #endif
