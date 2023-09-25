@@ -3,8 +3,11 @@
 
 # include <pthread.h>
 # include <stddef.h>
+# include <stdint.h>
 # include <sys/time.h>
 # include <stdbool.h>
+# include <limits.h>
+# include <stdlib.h>
 
 //###############################################################
 //		DATA_STRUCTURES
@@ -30,27 +33,31 @@ typedef enum e_fork_index {
 typedef struct s_philo {
 	pthread_t			thread;	
 	pthread_mutex_t		start_mutex;
-	t_fork				fork[2];
-	size_t				start_time;
-	int					state;
-	int					philo_id;
+	pthread_mutex_t		meal_mutex;
+	t_fork				*fork_l;
+	t_fork				*fork_r;
+	int32_t				state;
+	int32_t				philo_id;
+	int64_t				start_time;
+	int64_t				last_meal;
 	struct s_simulation	*sim;
 }				t_philo;
 
 
 //				main struct -> contains data about the rules of the simulation;
 typedef struct 	s_simulation {
-	int				number_of_philosophers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				number_of_times_each_philosopher_must_eat;
-	int				number_of_available_forks;
-	int				is_dead;
-	pthread_mutex_t state_mutex;
-	t_philo			*philo;
-	pthread_t		monitor;
+	int32_t				number_of_philosophers;
+	int32_t				time_to_die;
+	int32_t				time_to_eat;
+	int32_t				time_to_sleep;
+	int32_t				number_of_times_each_philosopher_must_eat;
+	int32_t				number_of_available_forks;
+	bool				is_dead;
 	t_fork			*forks;
+	pthread_t		monitor;
+	pthread_mutex_t state_mutex;
+	pthread_mutex_t start;
+	t_philo			*philo;
 }				t_simulation;
 
 //###############################################################
@@ -60,16 +67,23 @@ typedef struct 	s_simulation {
 //			main.c
 
 //			time.c
-long int	time_ellapsed_in_ms(size_t init);
-size_t		start_timer();
+int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
+int64_t		get_time();
+// int64_t		start_timer();
 
 //			init.c
 void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 
 //			threads.c
-int			create_philo_threads(t_simulation *sim);
-int			join_philo_threads(t_simulation *sim);
-int 		monitor_routine(t_simulation *sim);
+int16_t		create_philo_threads(t_simulation *sim);
+int16_t		join_philo_threads(t_simulation *sim);
+void		monitor_routine(t_simulation *sim);
+
+//			actions.c
+int16_t		philo_eat(t_philo *philo);
+int16_t		philo_sleep(t_philo *philo);
+void		philo_think(t_philo *philo);
+bool		check_death_state(t_simulation *sim);
 
 
 #endif

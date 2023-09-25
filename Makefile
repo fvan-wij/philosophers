@@ -6,6 +6,7 @@ SRC			:= 	main.c \
 				time.c \
 				init.c \
 				threads.c \
+				actions.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
