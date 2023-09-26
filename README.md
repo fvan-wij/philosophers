@@ -12,10 +12,12 @@
 - [x] Research external functions (usleep, gettimeofday, pthread_create, pthread_detach, pthread_join, pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock);
 - [x] Figure a way to create n of threads where n = amount of philosophers.
 - [x] Create appropriate data structures where t_simulation contains data about the simulation rules and an array of t_philo structs where each t_philo contains data about the thread and current state. 
-- [ ] Create timestamp system that displays the actions and states of each philosopher. 
+- [x] Create timestamp system that displays the actions and states of each philosopher. 
+- [ ] Fix bug where the simulation sometimes starts incorrectly (too many philosophers start dining at the same time).
+- [ ] Fix bug where the simulation should stop, but some philospohers still continue with their actions.
 
 ### Sources
-
+- https://github.com/rangaeeeee/books-raspberrypimagazines/blob/master/The%20Linux%20Programming%20Interface-Michael%20Kerrisk.pdf
 
 ### Research
 

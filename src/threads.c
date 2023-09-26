@@ -15,7 +15,7 @@ static void	*routine(void* arg)
 	philo->start_time = get_time();
 	pthread_mutex_unlock(&philo->start_mutex);
 
-	while (!check_death_state(philo->sim))
+	while (!simulation_should_stop(philo->sim))
 	{
 		if (philo_eat(philo) == -1)
 			break ;

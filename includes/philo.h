@@ -69,7 +69,6 @@ typedef struct 	s_simulation {
 //			time.c
 int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time();
-// int64_t		start_timer();
 
 //			init.c
 void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
@@ -83,7 +82,7 @@ void		monitor_routine(t_simulation *sim);
 int16_t		philo_eat(t_philo *philo);
 int16_t		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);
-bool		check_death_state(t_simulation *sim);
+bool		simulation_should_stop(t_simulation *sim);
 
 
 #endif
