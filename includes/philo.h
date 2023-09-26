@@ -13,27 +13,13 @@
 //		DATA_STRUCTURES
 //###############################################################
 
-//				philosopher state enumerator
-typedef enum e_state {
-	IS_EATING,
-	IS_SLEEPING,
-	IS_PONDERING,
-	IS_DEAD,
-	UNITIALIZED,
-}	t_state;
-
 typedef pthread_mutex_t t_fork;
-
-typedef enum e_fork_index {
-	LEFT,
-	RIGHT,
-} 	t_fork_index;
 
 //				philo struct -> contains data about the state of each seperate philosopher;
 typedef struct s_philo {
-	pthread_t			thread;	
 	pthread_mutex_t		start_mutex;
 	pthread_mutex_t		meal_mutex;
+	pthread_t			thread;	
 	t_fork				*fork_l;
 	t_fork				*fork_r;
 	int32_t				state;
@@ -43,9 +29,13 @@ typedef struct s_philo {
 	struct s_simulation	*sim;
 }				t_philo;
 
-
 //				main struct -> contains data about the rules of the simulation;
 typedef struct 	s_simulation {
+	pthread_mutex_t 	state_mutex;
+	pthread_mutex_t 	start;
+	pthread_t			monitor;
+	t_philo				*philo;
+	t_fork				*forks;
 	int32_t				number_of_philosophers;
 	int32_t				time_to_die;
 	int32_t				time_to_eat;
@@ -53,11 +43,6 @@ typedef struct 	s_simulation {
 	int32_t				number_of_times_each_philosopher_must_eat;
 	int32_t				number_of_available_forks;
 	bool				is_dead;
-	t_fork			*forks;
-	pthread_t		monitor;
-	pthread_mutex_t state_mutex;
-	pthread_mutex_t start;
-	t_philo			*philo;
 }				t_simulation;
 
 //###############################################################

@@ -19,30 +19,6 @@ static int	validate_input(t_simulation *sim)
 		return(ft_putstr_fd("Arguments should have at least a value of 1.\n", STDERR_FILENO), -1);
 }
 
-// static void	init_philosopher_states(t_simulation *sim)
-// {
-// 	int	i;
-//
-// 	i = 0;
-// 	while (i < sim->number_of_philosophers)
-// 	{
-// 		sim->philo[i].state = UNITIALIZED;
-// 		sim->philo[i].sim = sim;
-// 		sim->philo[i].philo_id = i;
-// 		if (i == 0)
-// 		{
-// 			sim->philo[i].fork[LEFT] = sim->forks[i];
-// 			sim->philo[i].fork[RIGHT] = sim->forks[i + 1];
-// 		}
-// 		else if (i == sim->number_of_philosophers - 1)
-// 		{
-// 			sim->philo[i].fork[LEFT] = sim->forks[i];
-// 			sim->philo[i].fork[RIGHT] = sim->forks[0];
-// 		}
-// 		i++;
-// 	}
-// }
-
 static void	init_philosopher_states(t_simulation *sim)
 {
 	int	i;
@@ -50,15 +26,14 @@ static void	init_philosopher_states(t_simulation *sim)
 	i = 0;
 	while (i < sim->number_of_philosophers)
 	{
-		sim->philo[i].state = UNITIALIZED;
 		sim->philo[i].sim = sim;
 		sim->philo[i].philo_id = i;
-		sim->philo[i].fork_l = &sim->forks[i];
-		sim->philo[i].fork_r = &sim->forks[i + 1];
-		if (i == sim->number_of_philosophers - 1)
+		sim->philo[i].fork_l = &sim->forks[i + 1];
+		sim->philo[i].fork_r = &sim->forks[i];
+		if (i == (sim->number_of_philosophers - 1))
 		{
-			sim->philo[i].fork_l = &sim->forks[i];
-			sim->philo[i].fork_r = &sim->forks[0];
+			sim->philo[i].fork_l = &sim->forks[0];
+			sim->philo[i].fork_r = &sim->forks[i];
 		}
 		i++;
 	}
@@ -73,7 +48,6 @@ void	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 	sim->time_to_eat = ft_atoi(argv[3]);
 	sim->time_to_sleep = ft_atoi(argv[4]);
 	sim->is_dead = false;
-	// sim->start = true;
 	if (argv[5])
 		sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	if (validate_input(sim) == -1)
