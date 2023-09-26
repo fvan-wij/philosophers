@@ -28,6 +28,7 @@ static void	init_philosopher_states(t_simulation *sim)
 	{
 		sim->philo[i].sim = sim;
 		sim->philo[i].philo_id = i;
+		sim->philo[i].meal_count = 0;
 		sim->philo[i].fork_l = &sim->forks[i + 1];
 		sim->philo[i].fork_r = &sim->forks[i];
 		if (i == (sim->number_of_philosophers - 1))
@@ -47,7 +48,7 @@ void	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 	sim->time_to_die = ft_atoi(argv[2]);
 	sim->time_to_eat = ft_atoi(argv[3]);
 	sim->time_to_sleep = ft_atoi(argv[4]);
-	sim->is_dead = false;
+	sim->terminate = false;
 	if (argv[5])
 		sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	if (validate_input(sim) == -1)

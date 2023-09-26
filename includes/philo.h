@@ -20,12 +20,13 @@ typedef struct s_philo {
 	pthread_mutex_t		start_mutex;
 	pthread_mutex_t		meal_mutex;
 	pthread_t			thread;	
-	t_fork				*fork_l;
-	t_fork				*fork_r;
 	int32_t				state;
 	int32_t				philo_id;
+	int32_t				meal_count;
 	int64_t				start_time;
 	int64_t				last_meal;
+	t_fork				*fork_l;
+	t_fork				*fork_r;
 	struct s_simulation	*sim;
 }				t_philo;
 
@@ -35,14 +36,14 @@ typedef struct 	s_simulation {
 	pthread_mutex_t 	start;
 	pthread_t			monitor;
 	t_philo				*philo;
-	t_fork				*forks;
 	int32_t				number_of_philosophers;
 	int32_t				time_to_die;
 	int32_t				time_to_eat;
 	int32_t				time_to_sleep;
 	int32_t				number_of_times_each_philosopher_must_eat;
 	int32_t				number_of_available_forks;
-	bool				is_dead;
+	t_fork				*forks;
+	bool				terminate;
 }				t_simulation;
 
 //###############################################################
@@ -62,12 +63,12 @@ void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 int16_t		create_philo_threads(t_simulation *sim);
 int16_t		join_philo_threads(t_simulation *sim);
 void		monitor_routine(t_simulation *sim);
+bool		simulation_should_stop(t_simulation *sim);
 
 //			actions.c
 int16_t		philo_eat(t_philo *philo);
 int16_t		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);
-bool		simulation_should_stop(t_simulation *sim);
 
 
 #endif
