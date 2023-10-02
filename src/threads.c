@@ -7,13 +7,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool	simulation_should_stop(t_simulation *sim)
+bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
 {
 	bool temp_state;
 
-	pthread_mutex_lock(&sim->state_mutex);
 	temp_state = sim->terminate;
-	pthread_mutex_unlock(&sim->state_mutex);
+	if (temp_state && left)
+		pthread_mutex_unlock(left);
+	if (temp_state && right)
+		pthread_mutex_unlock(right);
 	return (temp_state);
 }
 
@@ -21,15 +23,11 @@ static void	*routine(void* arg)
 {
 	t_philo *philo = (t_philo*)arg;
 
-	pthread_mutex_lock(&philo->start_mutex);
-	philo->start_time = get_time();
-	pthread_mutex_unlock(&philo->start_mutex);
-
 	while (1)
 	{
-		if (simulation_should_stop(philo->sim) || philo_eat(philo) == -1)
+		if (simulation_should_stop(philo->sim, NULL, NULL) || philo_eat(philo) == -1)
 			break ;
-		if (simulation_should_stop(philo->sim) || philo_sleep(philo) == -1)
+		if (simulation_should_stop(philo->sim, NULL, NULL) || philo_sleep(philo) == -1)
 			break ;
 		philo_think(philo);
 	}
@@ -41,9 +39,11 @@ int16_t	create_philo_threads(t_simulation *sim)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&sim->start_mutex);
+	sim->start_time = get_time();
+	pthread_mutex_unlock(&sim->start_mutex);
 	while (i < sim->number_of_philosophers)
 	{
-		pthread_mutex_init(&sim->philo[i].start_mutex, NULL);
 		pthread_mutex_init(&sim->philo[i].meal_mutex, NULL);
 		pthread_mutex_init(sim->philo[i].fork_l, NULL);
 		pthread_mutex_init(sim->philo[i].fork_r, NULL);
@@ -63,7 +63,6 @@ int16_t	join_philo_threads(t_simulation *sim)
 	{
 		if (pthread_join(sim->philo[i].thread, NULL) != 0)
 			return (ft_putstr_fd("Error joining thread!\n", STDERR_FILENO), -1);
-		pthread_mutex_destroy(&sim->philo[i].start_mutex);
 		pthread_mutex_destroy(&sim->philo[i].meal_mutex);
 		pthread_mutex_destroy(sim->philo[i].fork_l);
 		pthread_mutex_destroy(sim->philo[i].fork_r);
@@ -81,7 +80,7 @@ static bool	is_philo_dead(t_philo *philo, int philo_id)
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (time_ellapsed >= (int32_t) philo->sim->time_to_die)
 	{
-		ft_printf("%d %d died\n", time_ellapsed_in_ms(philo->start_time, get_time()), philo_id);
+		ft_printf("%d %d died\n", time_ellapsed_in_ms(philo->sim->start_time, get_time()), philo_id);
 		return (true);
 	}
 	return (false);
