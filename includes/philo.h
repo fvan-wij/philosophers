@@ -25,6 +25,7 @@ typedef struct s_philo {
 	int64_t				last_meal;
 	t_fork				*fork_l;
 	t_fork				*fork_r;
+	bool				is_full;
 	struct s_simulation	*sim;
 }				t_philo;
 
@@ -33,6 +34,7 @@ typedef struct 	s_simulation {
 	pthread_mutex_t		start_mutex;
 	pthread_mutex_t 	state_mutex;
 	pthread_mutex_t 	start_sim_mutex;
+	pthread_mutex_t		msg_mutex;
 	pthread_t			monitor;
 	t_philo				*philo;
 	int64_t				start_time;
@@ -64,6 +66,7 @@ int16_t		create_philo_threads(t_simulation *sim);
 int16_t		join_philo_threads(t_simulation *sim);
 void		monitor_routine(t_simulation *sim);
 bool		simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right);
+void		print_action(t_philo *philo, const char *msg, int16_t philo_id);
 
 //			actions.c
 int16_t		philo_eat(t_philo *philo);

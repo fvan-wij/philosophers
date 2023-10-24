@@ -11,6 +11,7 @@ int	main(int argc, char *argv[])
 	//Pre-mortem
 	init_simulation_data(argc, argv, &sim);
 	pthread_mutex_init(&sim.start_mutex, NULL);
+	pthread_mutex_init(&sim.msg_mutex, NULL);
 	pthread_mutex_init(&sim.state_mutex, NULL);
 	pthread_mutex_init(&sim.start_sim_mutex, NULL);
 	create_philo_threads(&sim);
@@ -21,5 +22,6 @@ int	main(int argc, char *argv[])
 	pthread_mutex_destroy(&sim.start_mutex);
 	pthread_mutex_destroy(&sim.state_mutex);
 	pthread_mutex_destroy(&sim.start_sim_mutex);
+	pthread_mutex_destroy(&sim.msg_mutex);
 	return (0);
 }

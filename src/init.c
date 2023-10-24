@@ -13,7 +13,7 @@ static int	is_correct_argc(int argc)
 
 static int	validate_input(t_simulation *sim)
 {
-	if (sim->number_of_philosophers >= 1 && sim->time_to_die >= 1 && sim->time_to_eat >= 1 && sim->time_to_sleep >= 1 && sim->number_of_times_each_philosopher_must_eat >= 0)
+	if (sim->number_of_philosophers >= 1 && sim->time_to_die >= 1 && sim->time_to_eat >= 1 && sim->time_to_sleep >= 1)
 		return (1);
 	else
 		return(ft_putstr_fd("Arguments should have at least a value of 1.\n", STDERR_FILENO), -1);
@@ -29,8 +29,10 @@ static void	init_philosopher_states(t_simulation *sim)
 		sim->philo[i].sim = sim;
 		sim->philo[i].philo_id = i;
 		sim->philo[i].meal_count = 0;
+		sim->philo[i].last_meal = 0;
 		sim->philo[i].fork_l = &sim->forks[i + 1];
 		sim->philo[i].fork_r = &sim->forks[i];
+		sim->philo[i].is_full = false;
 		if (i == (sim->number_of_philosophers - 1))
 		{
 			sim->philo[i].fork_l = &sim->forks[0];
@@ -55,6 +57,7 @@ void	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 		exit(1);
 	sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
 	sim->forks = ft_calloc(sim->number_of_philosophers, sizeof(t_fork));
+	ft_printf("number_of_philosophers: %d, time_to_die: %d, time_to_eat: %d, time_to_sleep: %d, number_of_times_each_philosopher_must_eat: %d\n", sim->number_of_philosophers, sim->time_to_die, sim->time_to_eat, sim->time_to_sleep, sim->number_of_times_each_philosopher_must_eat);
 	init_philosopher_states(sim);
 }
 

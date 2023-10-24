@@ -1,4 +1,5 @@
 NAME		:=	philo
+COMPILER	:=	cc
 FLAGS		:= 	-Wall -Wextra -Werror -pthread
 LIBS		:= 	./libft/libft.a
 HEADERS		:= 	-I libft -I includes
@@ -36,13 +37,13 @@ run: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
-	@$(CC) $^ $(LIBS) -o $(NAME)
+	@$(COMPILER) $^ $(LIBS) -o $(NAME)
 	@echo $(Green) $(Bold) Philosophers compiled succesfully ✅ $(Text_Off)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	@mkdir -p $(@D) 
 	@echo $(Cyan) Building... [$<] $(Text_Off)
-	@$(CC) $(FLAGS) $(HEADERS) -c $< -o $@
+	@$(COMPILER) $(FLAGS) $(HEADERS) -c $< -o $@
 
 $(OBJDIR):
 	@mkdir $@
