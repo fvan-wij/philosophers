@@ -32,7 +32,7 @@ static int16_t	philo_eat_odd(t_philo *philo)
 			print_action(philo, "has taken a fork\n");
 			print_action(philo, "is eating\n");
 		}
-		usleep(philo->sim->time_to_eat * 1000);
+		ft_usleep(philo->sim->time_to_eat * 1000);
 		philo->meal_count++;
 		update_last_meal_time(philo);
 		if (philo->meal_count >= philo->sim->number_of_times_each_philosopher_must_eat)
@@ -63,7 +63,7 @@ static int16_t	philo_eat_even(t_philo *philo)
 			print_action(philo, "has taken a fork\n");
 			print_action(philo, "is eating\n");
 		}
-		usleep(philo->sim->time_to_eat * 1000); // --> Create a function that loops small amounts of micro sleeps until it should stop sleeping.
+		ft_usleep(philo->sim->time_to_eat * 1000); // --> Create a function that loops small amounts of micro sleeps until it should stop sleeping.
 		philo->meal_count++;
 		update_last_meal_time(philo);
 		if (philo->meal_count >= philo->sim->number_of_times_each_philosopher_must_eat)
@@ -97,7 +97,7 @@ int16_t	philo_sleep(t_philo *philo)
 		else
 		{
 			print_action(philo, "is sleeping\n");
-			usleep(philo->sim->time_to_sleep * 1000);
+			ft_usleep(philo->sim->time_to_sleep * 1000);
 		}
 		if (simulation_should_stop(philo->sim, NULL, NULL))
 			return (-1);

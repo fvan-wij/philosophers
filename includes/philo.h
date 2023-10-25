@@ -57,6 +57,7 @@ typedef struct 	s_simulation {
 //			time.c
 int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time();
+void		ft_usleep(int64_t useconds);
 
 //			init.c
 void		init_simulation_data(int argc, char *argv[], t_simulation *sim);

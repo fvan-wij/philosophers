@@ -35,7 +35,6 @@ static bool	all_philos_are_full(t_simulation *sim)
 			return (false);
 		i++;
 	}
-	printf("They're all full!!!\n");
 	return (true);
 }
 

@@ -19,3 +19,11 @@ int64_t	get_time()
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+void	ft_usleep(int64_t usec)
+{
+	int64_t	wake_up_time;
+
+	wake_up_time = get_time() + usec / 1000;
+	while (get_time() <= wake_up_time)
+		usleep(250);
+}

@@ -25,22 +25,19 @@ bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
 static void	*routine(void* arg)
 {
 	t_philo *philo = (t_philo*)arg;
-	int16_t	wait;
 	
-	wait = 0;
-	pthread_mutex_lock(&philo->sim->start_mutex);
-	pthread_mutex_unlock(&philo->sim->start_mutex);
+	pthread_mutex_lock(&philo->sim->start_sim_mutex);
+	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
+	if (philo->philo_id % 2 == 0)
+		ft_usleep((philo->sim->time_to_eat) * 500);
 	while (1)
 	{
-		if (wait == 0 && philo->philo_id % 2 == 0)
-			usleep((philo->sim->time_to_eat / 2) * 1000);
 		if (philo_eat(philo) == -1)
 			break ;
 		if (philo_sleep(philo) == -1)
 			break ;
 		if (philo_think(philo) == -1)
 			break ;
-		wait++;
 	}
 	return NULL;
 }
@@ -50,7 +47,7 @@ int16_t	create_philo_threads(t_simulation *sim)
 	int16_t	i;
 
 	i = 0;
-	pthread_mutex_lock(&sim->start_mutex);
+	pthread_mutex_lock(&sim->start_sim_mutex);
 	while (i < sim->number_of_philosophers)
 	{
 		pthread_mutex_init(&sim->philo[i].meal_mutex, NULL);
@@ -61,13 +58,13 @@ int16_t	create_philo_threads(t_simulation *sim)
 		i++;
 	}
 	sim->start_time = get_time();
-	pthread_mutex_unlock(&sim->start_mutex);
 	i = 0;
 	while (i < sim->number_of_philosophers)
 	{
 		sim->philo[i].last_meal = sim->start_time;
 		i++;
 	}
+	pthread_mutex_unlock(&sim->start_sim_mutex);
 	return (1);
 }
 
