@@ -12,7 +12,9 @@ bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
 {
 	bool temp_state;
 
-	temp_state = sim->terminate; // to do: add mutex here
+	pthread_mutex_lock(&sim->state_mutex);
+	temp_state = sim->terminate;
+	pthread_mutex_unlock(&sim->state_mutex);
 	if (temp_state && left)
 		pthread_mutex_unlock(left);
 	if (temp_state && right)
@@ -23,16 +25,22 @@ bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
 static void	*routine(void* arg)
 {
 	t_philo *philo = (t_philo*)arg;
+	int16_t	wait;
 	
+	wait = 0;
 	pthread_mutex_lock(&philo->sim->start_mutex);
 	pthread_mutex_unlock(&philo->sim->start_mutex);
 	while (1)
 	{
+		if (wait == 0 && philo->philo_id % 2 == 0)
+			usleep((philo->sim->time_to_eat / 2) * 1000);
 		if (philo_eat(philo) == -1)
 			break ;
 		if (philo_sleep(philo) == -1)
 			break ;
-		philo_think(philo);
+		if (philo_think(philo) == -1)
+			break ;
+		wait++;
 	}
 	return NULL;
 }
@@ -54,6 +62,12 @@ int16_t	create_philo_threads(t_simulation *sim)
 	}
 	sim->start_time = get_time();
 	pthread_mutex_unlock(&sim->start_mutex);
+	i = 0;
+	while (i < sim->number_of_philosophers)
+	{
+		sim->philo[i].last_meal = sim->start_time;
+		i++;
+	}
 	return (1);
 }
 
@@ -72,60 +86,4 @@ int16_t	join_philo_threads(t_simulation *sim)
 		i++;
 	}
 	return (1);
-}
-
-static bool	is_philo_dead(t_philo *philo, int16_t philo_id)
-{
-	int64_t	time_ellapsed;
-
-	time_ellapsed = 0;
-	pthread_mutex_lock(&philo->meal_mutex);
-	time_ellapsed = time_ellapsed_in_ms(philo->last_meal, get_time());
-	time_ellapsed -= philo->sim->start_time;
-	pthread_mutex_unlock(&philo->meal_mutex);
-	if (time_ellapsed >= philo->sim->time_to_die)
-	{
-		print_action(philo, "has died\n", philo_id);
-		return (true);
-	}
-	return (false);
-}
-
-static bool	is_philo_full(t_philo *philo, int32_t number_of_times_each_philosopher_must_eat)
-{
-	if (philo->meal_count >= number_of_times_each_philosopher_must_eat)
-	{
-		print_action(philo, "has finished eating\n", philo->philo_id);
-		philo->is_full = true;
-		return (true);
-	}
-	else
-		return (false);
-}
-
-void	monitor_routine(t_simulation *sim) // Make sure program terminates as soon all philosophers have finished
-{
-	int16_t i;
-	int16_t j;
-
-	i = 0;
-	j = 0;
-	while (1)
-	{
-		if (is_philo_dead(&sim->philo[i], i))
-			break ;
-		if (is_philo_full(&sim->philo[i], sim->number_of_times_each_philosopher_must_eat))
-			j++;
-		if (j == sim->number_of_philosophers)
-			break ;
-		i++;
-		if (i >= sim->number_of_philosophers)
-		{
-			i = 0;
-			j = 0;
-		}
-	}
-	pthread_mutex_lock(&sim->state_mutex);
-	sim->terminate = true;
-	pthread_mutex_unlock(&sim->state_mutex);
 }

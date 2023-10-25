@@ -64,14 +64,16 @@ void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 //			threads.c
 int16_t		create_philo_threads(t_simulation *sim);
 int16_t		join_philo_threads(t_simulation *sim);
-void		monitor_routine(t_simulation *sim);
 bool		simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right);
-void		print_action(t_philo *philo, const char *msg, int16_t philo_id);
+void		print_action(t_philo *philo, const char *msg);
+
+//			monitor.c
+void		monitor_routine(t_simulation *sim);
 
 //			actions.c
 int16_t		philo_eat(t_philo *philo);
 int16_t		philo_sleep(t_philo *philo);
-void		philo_think(t_philo *philo);
+int16_t		philo_think(t_philo *philo);
 
 
 #endif
