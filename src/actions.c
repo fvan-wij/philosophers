@@ -1,4 +1,5 @@
 #include "../includes/philo.h"
+#include <pthread.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -17,7 +18,7 @@ void	update_last_meal_time(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
-static int16_t	philo_eat_odd(t_philo *philo)
+int16_t	philo_eat_odd(t_philo *philo)
 {
 		pthread_mutex_lock(philo->fork_l);
 		if (simulation_should_stop(philo->sim, philo->fork_l, NULL))
@@ -33,12 +34,16 @@ static int16_t	philo_eat_odd(t_philo *philo)
 			print_action(philo, "is eating\n");
 		}
 		ft_usleep(philo->sim->time_to_eat * 1000);
+		pthread_mutex_lock(&philo->meal_mutex);
 		philo->meal_count++;
+		pthread_mutex_unlock(&philo->meal_mutex);
 		update_last_meal_time(philo);
 		if (philo->meal_count >= philo->sim->number_of_times_each_philosopher_must_eat)
 		{
 			print_action(philo, "has finished eating\n");
+			pthread_mutex_lock(&philo->meal_mutex);
 			philo->is_full = true;
+			pthread_mutex_unlock(&philo->meal_mutex);
 			pthread_mutex_unlock(philo->fork_l);
 			pthread_mutex_unlock(philo->fork_r);
 			return (1);
@@ -48,7 +53,7 @@ static int16_t	philo_eat_odd(t_philo *philo)
 		return (1);	
 }
 
-static int16_t	philo_eat_even(t_philo *philo)
+int16_t	philo_eat_even(t_philo *philo)
 {
 		pthread_mutex_lock(philo->fork_r);
 		if (simulation_should_stop(philo->sim, NULL, philo->fork_r))
@@ -63,13 +68,17 @@ static int16_t	philo_eat_even(t_philo *philo)
 			print_action(philo, "has taken a fork\n");
 			print_action(philo, "is eating\n");
 		}
-		ft_usleep(philo->sim->time_to_eat * 1000); // --> Create a function that loops small amounts of micro sleeps until it should stop sleeping.
+		ft_usleep(philo->sim->time_to_eat * 1000);
+		pthread_mutex_lock(&philo->meal_mutex);
 		philo->meal_count++;
+		pthread_mutex_unlock(&philo->meal_mutex);
 		update_last_meal_time(philo);
 		if (philo->meal_count >= philo->sim->number_of_times_each_philosopher_must_eat)
 		{
 			print_action(philo, "has finished eating\n");
+			pthread_mutex_lock(&philo->meal_mutex);
 			philo->is_full = true;
+			pthread_mutex_unlock(&philo->meal_mutex);
 			pthread_mutex_unlock(philo->fork_l);
 			pthread_mutex_unlock(philo->fork_r);
 			return (1);
@@ -79,15 +88,16 @@ static int16_t	philo_eat_even(t_philo *philo)
 		return (1);	
 }
 
-
 int16_t	philo_eat(t_philo *philo)
 {
-		if (philo->is_full)
-			return (0);
-		if (philo->philo_id % 2 == 0)
-			return (philo_eat_even(philo));
-		else
-		 	return (philo_eat_odd(philo));
+	bool temp;
+
+	pthread_mutex_lock(&philo->state_mutex);
+	temp = philo->is_full;
+	pthread_mutex_unlock(&philo->state_mutex);
+	if (temp)
+		return (0);
+	return (philo->eat_func(philo));
 }
 
 int16_t	philo_sleep(t_philo *philo)
@@ -112,4 +122,3 @@ int16_t	philo_think(t_philo *philo)
 			print_action(philo, "is thinking\n");
 		return (1);
 }
-

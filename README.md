@@ -13,7 +13,7 @@
 - [x] Figure a way to create n of threads where n = amount of philosophers.
 - [x] Create appropriate data structures where t_simulation contains data about the simulation rules and an array of t_philo structs where each t_philo contains data about the thread and current state. 
 - [x] Create timestamp system that displays the actions and states of each philosopher. 
-- [ ] Fix bug where the simulation sometimes starts incorrectly (too many philosophers start dining at the same time).
+- [x] Fix bug where the simulation sometimes starts incorrectly (too many philosophers start dining at the same time).
 - [ ] Fix bug where the simulation should stop, but some philospohers still continue with their actions.
 
 ### Sources

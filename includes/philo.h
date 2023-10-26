@@ -8,6 +8,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <stdlib.h>
+#include <wchar.h>
 
 //###############################################################
 //		DATA_STRUCTURES
@@ -18,6 +19,7 @@ typedef pthread_mutex_t t_fork;
 //				philo struct -> contains data about the state of each seperate philosopher;
 typedef struct s_philo {
 	pthread_mutex_t		meal_mutex;
+	pthread_mutex_t		state_mutex;
 	pthread_t			thread;	
 	int32_t				state;
 	int32_t				philo_id;
@@ -26,6 +28,7 @@ typedef struct s_philo {
 	t_fork				*fork_l;
 	t_fork				*fork_r;
 	bool				is_full;
+	int16_t				(*eat_func)(struct s_philo *);
 	struct s_simulation	*sim;
 }				t_philo;
 
@@ -75,6 +78,8 @@ void		monitor_routine(t_simulation *sim);
 int16_t		philo_eat(t_philo *philo);
 int16_t		philo_sleep(t_philo *philo);
 int16_t		philo_think(t_philo *philo);
+int16_t		philo_eat_even(t_philo *philo);
+int16_t		philo_eat_odd(t_philo *philo);
 
 
 #endif
