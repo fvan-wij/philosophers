@@ -15,6 +15,8 @@
 - [x] Create timestamp system that displays the actions and states of each philosopher. 
 - [x] Fix bug where the simulation sometimes starts incorrectly (too many philosophers start dining at the same time).
 - [ ] Fix bug where the simulation should stop, but some philospohers still continue with their actions.
+- [ ] 1 philo case.
+- [ ] 200+ philo case.
 
 ### Sources
 - https://github.com/rangaeeeee/books-raspberrypimagazines/blob/master/The%20Linux%20Programming%20Interface-Michael%20Kerrisk.pdf
