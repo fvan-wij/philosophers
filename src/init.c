@@ -57,11 +57,14 @@ void	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 		sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 	 	sim->number_of_times_each_philosopher_must_eat = 0;
-	printf("sim:n_of_time_ust_eat: %d\n", sim->number_of_times_each_philosopher_must_eat);
 	if (validate_input(sim) == -1)
 		exit(1);
 	sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
 	sim->forks = ft_calloc(sim->number_of_philosophers, sizeof(t_fork));
+	if (sim->time_to_eat >= sim->time_to_die)
+		sim->time_to_eat = sim->time_to_die;
+	if (sim->time_to_sleep >= sim->time_to_die)
+		sim->time_to_sleep = sim->time_to_die;
 	init_philosopher_states(sim);
 }
 

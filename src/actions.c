@@ -18,6 +18,16 @@ void	update_last_meal_time(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
+static void	update_meal_count(t_philo *philo)
+{
+	if (philo->sim->number_of_times_each_philosopher_must_eat > 0)
+	{
+		pthread_mutex_lock(&philo->meal_mutex);
+		philo->meal_count++;
+		pthread_mutex_unlock(&philo->meal_mutex);
+	}
+}
+
 int16_t	philo_eat_odd(t_philo *philo)
 {
 		pthread_mutex_lock(philo->fork_l);
@@ -33,15 +43,9 @@ int16_t	philo_eat_odd(t_philo *philo)
 			print_action(philo, "has taken a fork\n");
 			print_action(philo, "is eating\n");
 		}
-		ft_usleep(philo->sim->time_to_eat * 1000);
-		if (philo->sim->number_of_times_each_philosopher_must_eat > 0)
-		{
-
-			pthread_mutex_lock(&philo->meal_mutex);
-			philo->meal_count++;
-			pthread_mutex_unlock(&philo->meal_mutex);
-		}
 		update_last_meal_time(philo);
+		ft_usleep(philo->sim->time_to_eat * 1000);
+		update_meal_count(philo);
 		if (philo->sim->number_of_times_each_philosopher_must_eat > 0 && philo->meal_count >= philo->sim->number_of_times_each_philosopher_must_eat)
 		{
 			pthread_mutex_lock(&philo->meal_mutex);
@@ -71,6 +75,7 @@ int16_t	philo_eat_even(t_philo *philo)
 			print_action(philo, "has taken a fork\n");
 			print_action(philo, "is eating\n");
 		}
+		update_last_meal_time(philo);
 		ft_usleep(philo->sim->time_to_eat * 1000);
 		if (philo->sim->number_of_times_each_philosopher_must_eat > 0)
 		{
@@ -79,7 +84,6 @@ int16_t	philo_eat_even(t_philo *philo)
 			philo->meal_count++;
 			pthread_mutex_unlock(&philo->meal_mutex);
 		}
-		update_last_meal_time(philo);
 		if (philo->sim->number_of_times_each_philosopher_must_eat > 0 && philo->meal_count >= philo->sim->number_of_times_each_philosopher_must_eat)
 		{
 			pthread_mutex_lock(&philo->meal_mutex);
@@ -96,13 +100,6 @@ int16_t	philo_eat_even(t_philo *philo)
 
 int16_t	philo_eat(t_philo *philo)
 {
-	bool temp;
-
-	pthread_mutex_lock(&philo->state_mutex);
-	temp = philo->is_full;
-	pthread_mutex_unlock(&philo->state_mutex);
-	if (temp)
-		return (0);
 	return (philo->eat_func(philo));
 }
 
