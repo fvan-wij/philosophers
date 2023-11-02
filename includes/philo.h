@@ -78,9 +78,8 @@ void		monitor_routine(t_simulation *sim);
 int8_t		philo_eat(t_philo *philo);
 int8_t		philo_sleep(t_philo *philo);
 int8_t		philo_think(t_philo *philo);
-int8_t		philo_eat_even(t_philo *philo);
-int8_t		philo_eat_odd(t_philo *philo);
-int8_t		philo_eat_solo(t_philo *philo);
+int8_t		plural_eat_routine(t_philo *philo);
+int8_t		singular_eat_routine(t_philo *philo);
 
 
 #endif

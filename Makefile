@@ -9,6 +9,7 @@ SRC			:= 	main.c \
 				threads.c \
 				actions.c \
 				monitor.c \
+				eat_routines.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
