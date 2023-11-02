@@ -9,6 +9,7 @@ SRC			:= 	main.c \
 				threads.c \
 				actions.c \
 				monitor.c \
+				eat.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
@@ -29,7 +30,7 @@ Bold		= "\033[1m"			# Text Style Bold
 ######################################################
 
 ifdef DEBUG
-	CC += -g -fsanitize=address
+	COMPILER += -g -fsanitize=thread
 endif
 
 all: $(NAME)

@@ -50,9 +50,23 @@ static	void	terminate_simulation(t_simulation *sim)
 	pthread_mutex_unlock(&sim->state_mutex);
 }
 
+bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
+{
+	bool temp_state;
+
+	pthread_mutex_lock(&sim->state_mutex);
+	temp_state = sim->terminate;
+	pthread_mutex_unlock(&sim->state_mutex);
+	if (temp_state && left)
+		pthread_mutex_unlock(left);
+	if (temp_state && right)
+		pthread_mutex_unlock(right);
+	return (temp_state);
+}
+
 void	monitor_routine(t_simulation *sim)
 {
-	int16_t i;
+	int8_t i;
 
 	i = 0;
 	if (sim->number_of_times_each_philosopher_must_eat > 0)
@@ -64,6 +78,7 @@ void	monitor_routine(t_simulation *sim)
 			i++;
 			if (i >= sim->number_of_philosophers)
 				i = 0;
+			ft_usleep(1000);
 		}
 	}
 	else
@@ -75,6 +90,7 @@ void	monitor_routine(t_simulation *sim)
 			i++;
 			if (i >= sim->number_of_philosophers)
 				i = 0;
+			ft_usleep(1000);
 		}
 	}
 	terminate_simulation(sim);

@@ -11,24 +11,24 @@
 #include <wchar.h>
 
 //###############################################################
-//		DATA_STRUCTURES
+//				DATA_STRUCTURES
 //###############################################################
 
-typedef pthread_mutex_t t_fork;
+//				typedefined variable t_fork;
+typedef			pthread_mutex_t t_fork;
 
 //				philo struct -> contains data about the state of each seperate philosopher;
-typedef struct s_philo {
+typedef struct 	s_philo {
 	pthread_mutex_t		meal_mutex;
 	pthread_mutex_t		state_mutex;
 	pthread_t			thread;	
-	int32_t				state;
 	int32_t				philo_id;
 	int32_t				meal_count;
 	int64_t				last_meal;
 	t_fork				*fork_l;
 	t_fork				*fork_r;
 	bool				is_full;
-	int16_t				(*eat_func)(struct s_philo *);
+	int8_t				(*eat_func)(struct s_philo *);
 	struct s_simulation	*sim;
 }				t_philo;
 
@@ -52,7 +52,7 @@ typedef struct 	s_simulation {
 }				t_simulation;
 
 //###############################################################
-//		SOURCE FILES	
+//			SOURCE FILES	
 //###############################################################
 
 //			main.c
@@ -68,18 +68,19 @@ void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 //			threads.c
 int16_t		create_philo_threads(t_simulation *sim);
 int16_t		join_philo_threads(t_simulation *sim);
-bool		simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right);
-void		print_action(t_philo *philo, const char *msg);
 
 //			monitor.c
 void		monitor_routine(t_simulation *sim);
+bool		simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right);
 
 //			actions.c
-int16_t		philo_eat(t_philo *philo);
-int16_t		philo_sleep(t_philo *philo);
-int16_t		philo_think(t_philo *philo);
-int16_t		philo_eat_even(t_philo *philo);
-int16_t		philo_eat_odd(t_philo *philo);
+int8_t		philo_eat(t_philo *philo);
+int8_t		philo_sleep(t_philo *philo);
+int8_t		philo_think(t_philo *philo);
+void		print_action(t_philo *philo, const char *msg);
 
+//			eat.c
+int8_t		philo_eat_even(t_philo *philo);
+int8_t		philo_eat_odd(t_philo *philo);
 
 #endif
