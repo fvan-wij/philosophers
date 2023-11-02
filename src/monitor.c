@@ -24,19 +24,19 @@ static bool	philo_is_dead(t_philo *philo)
 	return (false);
 }
 
-static bool	all_philos_are_full(t_simulation *sim)
-{
-	int16_t	i;
-	
-	i = 0;
-	while (i < sim->number_of_philosophers)
-	{
-		if (sim->philo[i].is_full == false) // MUTEX PROTECTION!!
-			return (false);
-		i++;
-	}
-	return (true);
-}
+// static bool	all_philos_are_full(t_simulation *sim)
+// {
+// 	int16_t	i;
+// 	
+// 	i = 0;
+// 	while (i < sim->number_of_philosophers)
+// 	{
+// 		if (sim->philo[i].is_full == false) // MUTEX PROTECTION!!
+// 			return (false);
+// 		i++;
+// 	}
+// 	return (true);
+// }
 
 static	void	terminate_simulation(t_simulation *sim)
 {
@@ -45,33 +45,49 @@ static	void	terminate_simulation(t_simulation *sim)
 	pthread_mutex_unlock(&sim->term_mutex);
 }
 
+static bool philo_is_full(t_philo *philo)
+{
+	bool temp = false;
+
+	pthread_mutex_lock(&philo->state_mutex);
+	temp = philo->is_full;
+	pthread_mutex_unlock(&philo->state_mutex);
+	return (temp);
+}
+
 void	monitor_routine(t_simulation *sim)
 {
-	int16_t i;
+	uint8_t i;
+	uint8_t count;
 
 	i = 0;
+	count = 0;
 	if (sim->number_of_times_each_philosopher_must_eat > 0)
 	{
-		while (1)
+		while (ft_usleep(MS(1)) != -1)
 		{
-			if (philo_is_dead(&sim->philo[i]) || all_philos_are_full(sim))
+			if (philo_is_dead(&sim->philo[i]))
 				break ;
+			count += philo_is_full(&sim->philo[i]);
 			i++;
-			if (i >= sim->number_of_philosophers)
+			if (count == sim->number_of_philosophers)
+				break ;
+			else if (i >= sim->number_of_philosophers)
+			{
 				i = 0;
-			ft_usleep(1000);
+				count = 0;
+			}
 		}
 	}
 	else
 	{
-		while (1)
+		while (ft_usleep(MS(1)) != -1)
 		{
 			if (philo_is_dead(&sim->philo[i]))
 				break ;
 			i++;
 			if (i >= sim->number_of_philosophers)
 				i = 0;
-			ft_usleep(1000);
 		}
 	}
 	terminate_simulation(sim);

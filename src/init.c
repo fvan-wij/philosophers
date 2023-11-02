@@ -29,7 +29,7 @@ static void	init_philosopher_states(t_simulation *sim)
 	while (i < sim->number_of_philosophers)
 	{
 		sim->philo[i].sim = sim;
-		sim->philo[i].philo_id = i;
+		sim->philo[i].philo_id = i + 1;
 		sim->philo[i].meal_count = 0;
 		sim->philo[i].last_meal = 0;
 		sim->philo[i].fork_l = &sim->forks[i + 1];

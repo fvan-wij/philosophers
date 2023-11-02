@@ -8,34 +8,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
-{
-	bool temp_state;
-
-	pthread_mutex_lock(&sim->term_mutex);
-	temp_state = sim->terminate;
-	pthread_mutex_unlock(&sim->term_mutex);
-	if (temp_state && left)
-		pthread_mutex_unlock(left);
-	if (temp_state && right)
-		pthread_mutex_unlock(right);
-	return (temp_state);
-}
-
 static void	*routine(void* arg)
 {
 	t_philo *philo = (t_philo*)arg;
 
 	if (philo->sim->number_of_philosophers == 1)
 		philo->eat_func = &philo_eat_solo;
-	// else if (philo->philo_id % 2 == 0)
-	// 	philo->eat_func = &philo_eat_even;
 	else
 		philo->eat_func = &philo_eat_even;
 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
 	if (philo->philo_id % 2 != 0)
-		ft_usleep((philo->sim->time_to_eat) * 500);
+		ft_usleep(MS(philo->sim->time_to_eat * 0.5));
 	while (1)
 	{
 		if (philo_eat(philo) == -1)
