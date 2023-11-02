@@ -13,9 +13,9 @@ static void	*routine(void* arg)
 	t_philo *philo = (t_philo*)arg;
 
 	if (philo->sim->number_of_philosophers == 1)
-		philo->eat_func = &plural_eat_routine;
-	else
 		philo->eat_func = &singular_eat_routine;
+	else
+		philo->eat_func = &plural_eat_routine;
 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
 	if (philo->philo_id % 2 != 0)
