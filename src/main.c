@@ -10,17 +10,17 @@ int	main(int argc, char *argv[])
 
 	//Pre-mortem
 	init_simulation_data(argc, argv, &sim);
-	pthread_mutex_init(&sim.start_mutex, NULL);
+	pthread_mutex_init(&sim.start_time_mutex, NULL);
 	pthread_mutex_init(&sim.msg_mutex, NULL);
-	pthread_mutex_init(&sim.state_mutex, NULL);
+	pthread_mutex_init(&sim.term_mutex, NULL);
 	pthread_mutex_init(&sim.start_sim_mutex, NULL);
 	create_philo_threads(&sim);
 	monitor_routine(&sim);
 
 	//Post-mortem
 	join_philo_threads(&sim);
-	pthread_mutex_destroy(&sim.start_mutex);
-	pthread_mutex_destroy(&sim.state_mutex);
+	pthread_mutex_destroy(&sim.start_time_mutex);
+	pthread_mutex_destroy(&sim.term_mutex);
 	pthread_mutex_destroy(&sim.start_sim_mutex);
 	pthread_mutex_destroy(&sim.msg_mutex);
 	return (0);

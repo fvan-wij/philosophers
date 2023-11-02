@@ -19,11 +19,6 @@ static bool	philo_is_dead(t_philo *philo)
 	if (time_ellapsed >= philo->sim->time_to_die)
 	{
 		print_action(philo, "died\n");
-		if (philo->sim->number_of_philosophers == 1)
-		{
-			pthread_mutex_unlock(philo->fork_l);
-			pthread_mutex_unlock(philo->fork_r);
-		}
 		return (true);
 	}
 	return (false);
@@ -36,7 +31,7 @@ static bool	all_philos_are_full(t_simulation *sim)
 	i = 0;
 	while (i < sim->number_of_philosophers)
 	{
-		if (sim->philo[i].is_full == false)
+		if (sim->philo[i].is_full == false) // MUTEX PROTECTION!!
 			return (false);
 		i++;
 	}
@@ -45,9 +40,9 @@ static bool	all_philos_are_full(t_simulation *sim)
 
 static	void	terminate_simulation(t_simulation *sim)
 {
-	pthread_mutex_lock(&sim->state_mutex);
+	pthread_mutex_lock(&sim->term_mutex);
 	sim->terminate = true;
-	pthread_mutex_unlock(&sim->state_mutex);
+	pthread_mutex_unlock(&sim->term_mutex);
 }
 
 void	monitor_routine(t_simulation *sim)
@@ -64,6 +59,7 @@ void	monitor_routine(t_simulation *sim)
 			i++;
 			if (i >= sim->number_of_philosophers)
 				i = 0;
+			ft_usleep(1000);
 		}
 	}
 	else
@@ -75,6 +71,7 @@ void	monitor_routine(t_simulation *sim)
 			i++;
 			if (i >= sim->number_of_philosophers)
 				i = 0;
+			ft_usleep(1000);
 		}
 	}
 	terminate_simulation(sim);

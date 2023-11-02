@@ -12,9 +12,9 @@ bool	simulation_should_stop(t_simulation *sim, t_fork *left, t_fork *right)
 {
 	bool temp_state;
 
-	pthread_mutex_lock(&sim->state_mutex);
+	pthread_mutex_lock(&sim->term_mutex);
 	temp_state = sim->terminate;
-	pthread_mutex_unlock(&sim->state_mutex);
+	pthread_mutex_unlock(&sim->term_mutex);
 	if (temp_state && left)
 		pthread_mutex_unlock(left);
 	if (temp_state && right)
@@ -26,14 +26,16 @@ static void	*routine(void* arg)
 {
 	t_philo *philo = (t_philo*)arg;
 
-	if (philo->philo_id % 2 == 0)
-		philo->eat_func = &philo_eat_even;
+	if (philo->sim->number_of_philosophers == 1)
+		philo->eat_func = &philo_eat_solo;
+	// else if (philo->philo_id % 2 == 0)
+	// 	philo->eat_func = &philo_eat_even;
 	else
-	 	philo->eat_func = &philo_eat_even;
+		philo->eat_func = &philo_eat_even;
 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
-	if (philo->philo_id % 2 == 0)
-		ft_usleep((philo->sim->time_to_eat) * 250);
+	if (philo->philo_id % 2 != 0)
+		ft_usleep((philo->sim->time_to_eat) * 500);
 	while (1)
 	{
 		if (philo_eat(philo) == -1)
@@ -43,7 +45,7 @@ static void	*routine(void* arg)
 		if (philo_think(philo) == -1)
 			break ;
 	}
-	return NULL;
+	return (NULL);
 }
 
 int16_t	create_philo_threads(t_simulation *sim)
@@ -82,6 +84,11 @@ int16_t	join_philo_threads(t_simulation *sim)
 	{
 		if (pthread_join(sim->philo[i].thread, NULL) != 0)
 			return (ft_putstr_fd("Error: could not join thread!\n", STDERR_FILENO), -1);
+		i++;
+	}
+	i = 0;
+	while (i < sim->number_of_philosophers)
+	{
 		pthread_mutex_destroy(&sim->philo[i].meal_mutex);
 		pthread_mutex_destroy(&sim->philo[i].state_mutex);
 		pthread_mutex_destroy(sim->philo[i].fork_l);

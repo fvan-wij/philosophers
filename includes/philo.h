@@ -28,14 +28,14 @@ typedef struct s_philo {
 	t_fork				*fork_l;
 	t_fork				*fork_r;
 	bool				is_full;
-	int16_t				(*eat_func)(struct s_philo *);
+	int8_t				(*eat_func)(struct s_philo *);
 	struct s_simulation	*sim;
 }				t_philo;
 
 //				main struct -> contains data about the rules of the simulation;
 typedef struct 	s_simulation {
-	pthread_mutex_t		start_mutex;
-	pthread_mutex_t 	state_mutex;
+	pthread_mutex_t		start_time_mutex;
+	pthread_mutex_t 	term_mutex;
 	pthread_mutex_t 	start_sim_mutex;
 	pthread_mutex_t		msg_mutex;
 	pthread_t			monitor;
@@ -75,11 +75,12 @@ void		print_action(t_philo *philo, const char *msg);
 void		monitor_routine(t_simulation *sim);
 
 //			actions.c
-int16_t		philo_eat(t_philo *philo);
-int16_t		philo_sleep(t_philo *philo);
-int16_t		philo_think(t_philo *philo);
-int16_t		philo_eat_even(t_philo *philo);
-int16_t		philo_eat_odd(t_philo *philo);
+int8_t		philo_eat(t_philo *philo);
+int8_t		philo_sleep(t_philo *philo);
+int8_t		philo_think(t_philo *philo);
+int8_t		philo_eat_even(t_philo *philo);
+int8_t		philo_eat_odd(t_philo *philo);
+int8_t		philo_eat_solo(t_philo *philo);
 
 
 #endif

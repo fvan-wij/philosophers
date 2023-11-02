@@ -94,7 +94,7 @@ Text_Off	= "\033[0m"			# Text Style
 
 OBJ 		:= $(SRC:.c=.o)
 
-CC			:= gcc
+CC			:= cc
 
 CFLAGS		:= -Wall -Werror -Wextra
 

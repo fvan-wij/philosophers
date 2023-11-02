@@ -1,6 +1,6 @@
 NAME		:=	philo
 COMPILER	:=	cc
-FLAGS		:= 	-Wall -Wextra -Werror -pthread
+FLAGS		:= 	-Wall -Wextra -Werror
 LIBS		:= 	./libft/libft.a
 HEADERS		:= 	-I libft -I includes
 SRC			:= 	main.c \
@@ -14,6 +14,7 @@ SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
 OBJ			:= 	$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 SRC			:= 	$(addprefix $(SRCDIR)/,$(SRC))
+MODE		:=
 
 # Colors #############################################
 Black		= "\033[0;30m"		# Black
@@ -29,7 +30,11 @@ Bold		= "\033[1m"			# Text Style Bold
 ######################################################
 
 ifdef DEBUG
-	CC += -g -fsanitize=address
+	COMPILER	+= -g -fsanitize=thread
+	MODE		+= $(Yellow) $(Bold) "(DEBUG MODE) Philosophers compiled succesfully ✅" $(Text_Off)
+endif
+ifndef DEBUG
+	MODE 		+= $(Green) $(Bold) "Philosophers compiled succesfully ✅" $(Text_Off)
 endif
 
 all: $(NAME)
@@ -39,7 +44,7 @@ run: $(NAME)
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
 	@$(COMPILER) $^ $(LIBS) -o $(NAME)
-	@echo $(Green) $(Bold) Philosophers compiled succesfully ✅ $(Text_Off)
+	@echo $(MODE) 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	@mkdir -p $(@D) 
