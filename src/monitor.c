@@ -24,20 +24,6 @@ static bool	philo_is_dead(t_philo *philo)
 	return (false);
 }
 
-// static bool	all_philos_are_full(t_simulation *sim)
-// {
-// 	int16_t	i;
-// 	
-// 	i = 0;
-// 	while (i < sim->number_of_philosophers)
-// 	{
-// 		if (sim->philo[i].is_full == false) // MUTEX PROTECTION!!
-// 			return (false);
-// 		i++;
-// 	}
-// 	return (true);
-// }
-
 static	void	terminate_simulation(t_simulation *sim)
 {
 	pthread_mutex_lock(&sim->term_mutex);
