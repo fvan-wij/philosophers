@@ -59,7 +59,7 @@ typedef struct 	s_simulation {
 //			main.c
 
 //			time.c
-int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
+int64_t		time_elapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time();
 int8_t		ft_usleep(int64_t useconds);
 
@@ -79,6 +79,8 @@ int8_t		philo_eat(t_philo *philo);
 int8_t		philo_sleep(t_philo *philo);
 int8_t		philo_think(t_philo *philo);
 int8_t		plural_eat_routine(t_philo *philo);
+int8_t		plural_eat_routine_odd(t_philo *philo);
+int8_t		plural_eat_routine_even(t_philo *philo);
 int8_t		singular_eat_routine(t_philo *philo);
 
 

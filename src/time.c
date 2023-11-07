@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-int64_t	time_ellapsed_in_ms(int64_t start_time, int64_t end_time)
+int64_t	time_elapsed_in_ms(int64_t start_time, int64_t end_time)
 {
 	int64_t delta_time;
 	delta_time = end_time - start_time;

@@ -14,13 +14,10 @@ static bool	philo_is_dead(t_philo *philo)
 
 	time_ellapsed = 0;
 	pthread_mutex_lock(&philo->meal_mutex);
-	time_ellapsed = time_ellapsed_in_ms(philo->last_meal, get_time());
+	time_ellapsed = time_elapsed_in_ms(philo->last_meal, get_time());
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (time_ellapsed >= philo->sim->time_to_die)
-	{
-		print_action(philo, "died\n");
-		return (true);
-	}
+		return (print_action(philo, "died\n"), true);
 	return (false);
 }
 

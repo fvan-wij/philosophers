@@ -14,12 +14,16 @@ static void	*routine(void* arg)
 
 	if (philo->sim->number_of_philosophers == 1)
 		philo->eat_func = &singular_eat_routine;
+	else if (philo->philo_id == 1 && philo->sim->number_of_philosophers % 2 != 0)
+		philo->eat_func = &plural_eat_routine_odd;
+	else if (philo->philo_id == 1 && philo->sim->number_of_philosophers % 2 == 0)
+	 	philo->eat_func = &plural_eat_routine_even;
 	else
 		philo->eat_func = &plural_eat_routine;
 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
-	if (philo->philo_id % 2 != 0)
-		ft_usleep(MS(philo->sim->time_to_eat * 0.5));
+	// if (philo->philo_id % 2 != 0)
+	// 	ft_usleep(MS(philo->sim->time_to_eat * 0.5));
 	while (1)
 	{
 		if (philo_eat(philo) == -1)

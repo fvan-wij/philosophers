@@ -18,7 +18,7 @@ int8_t	print_action(t_philo *philo, const char *msg) //Check if sim should stop
 	else
 	{
 		pthread_mutex_lock(&philo->sim->msg_mutex);
-		printf("%ld %d %s", time_ellapsed_in_ms(philo->sim->start_time, get_time()), philo->philo_id, msg);
+		printf("%ld %d %s", time_elapsed_in_ms(philo->sim->start_time, get_time()), philo->philo_id, msg);
 		pthread_mutex_unlock(&philo->sim->msg_mutex);
 		return (1);
 	}

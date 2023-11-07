@@ -34,6 +34,22 @@ static void poll_if_full(t_philo *philo)
 
 int8_t	plural_eat_routine(t_philo *philo)
 {
+	pthread_mutex_lock(philo->fork_l);
+	print_action(philo, "has taken a fork\n");
+	pthread_mutex_lock(philo->fork_r);
+	print_action(philo, "has taken a fork\n");
+	print_action(philo, "is eating\n");
+	update_last_meal_time(philo);
+	ft_usleep(MS(philo->sim->time_to_eat));
+	pthread_mutex_unlock(philo->fork_r);
+	pthread_mutex_unlock(philo->fork_l);
+	update_meal_count(philo);
+	poll_if_full(philo);
+	return (1);	
+}
+
+int8_t	plural_eat_routine_odd(t_philo *philo)
+{
 	pthread_mutex_lock(philo->fork_r);
 	print_action(philo, "has taken a fork\n");
 	pthread_mutex_lock(philo->fork_l);
@@ -41,10 +57,26 @@ int8_t	plural_eat_routine(t_philo *philo)
 	print_action(philo, "is eating\n");
 	update_last_meal_time(philo);
 	ft_usleep(MS(philo->sim->time_to_eat));
-	update_meal_count(philo);
-	poll_if_full(philo);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(philo->fork_l);
+	update_meal_count(philo);
+	poll_if_full(philo);
+	return (1);	
+}
+
+int8_t	plural_eat_routine_even(t_philo *philo)
+{
+	pthread_mutex_lock(philo->fork_l);
+	print_action(philo, "has taken a fork\n");
+	pthread_mutex_lock(philo->fork_r);
+	print_action(philo, "has taken a fork\n");
+	print_action(philo, "is eating\n");
+	update_last_meal_time(philo);
+	ft_usleep(MS(philo->sim->time_to_eat));
+	pthread_mutex_unlock(philo->fork_r);
+	pthread_mutex_unlock(philo->fork_l);
+	update_meal_count(philo);
+	poll_if_full(philo);
 	return (1);	
 }
 
