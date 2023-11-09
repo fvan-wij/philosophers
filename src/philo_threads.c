@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   philo_threads.c                                   :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: fvan-wij <marvin@42.fr>                     +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/09 16:49:34 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/11/09 16:52:26 by fvan-wij      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 #include "../libft/libft.h"
 #include <pthread.h>
@@ -23,15 +35,16 @@ static int8_t	philo_sleep(t_philo *philo)
 
 static int8_t	philo_think(t_philo *philo)
 {
-		if (print_action(philo, "is thinking\n") == -1)
-			return (-1);
-		return (1);
+	if (print_action(philo, "is thinking\n") == -1)
+		return (-1);
+	return (1);
 }
 
-void	*philo_routine(void* arg)
+void	*philo_routine(void *arg)
 {
-	t_philo *philo = (t_philo*)arg;
+	t_philo	*philo;
 
+	philo = (t_philo *) arg;
 	if (philo->sim->number_of_philosophers == 1)
 		philo->eat_func = &singular_eat_routine;
 	else

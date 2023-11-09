@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   monitor_thread.c                                  :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: fvan-wij <marvin@42.fr>                     +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/09 16:48:04 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/11/09 16:48:55 by fvan-wij      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 #include "../libft/libft.h"
 #include <pthread.h>
@@ -18,7 +30,7 @@ static	void	terminate_simulation(t_simulation *sim)
 static bool	philo_is_dead(t_philo *philo)
 {
 	int64_t	time_ellapsed;
-	int64_t time;
+	int64_t	time;
 
 	time_ellapsed = 0;
 	time = 0;
@@ -36,9 +48,9 @@ static bool	philo_is_dead(t_philo *philo)
 	return (false);
 }
 
-static bool philo_is_full(t_philo *philo)
+static bool	philo_is_full(t_philo *philo)
 {
-	bool temp = false;
+	bool	temp;
 
 	pthread_mutex_lock(&philo->state_mutex);
 	temp = philo->is_full;
@@ -48,8 +60,8 @@ static bool philo_is_full(t_philo *philo)
 
 void	monitor_routine(t_simulation *sim)
 {
-	uint8_t i;
-	uint8_t count;
+	uint8_t	i;
+	uint8_t	count;
 
 	i = 0;
 	count = 0;

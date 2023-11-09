@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   philo.h                                           :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: fvan-wij <marvin@42.fr>                     +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/09 16:57:52 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/11/09 16:59:44 by fvan-wij      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H 
 # define PHILO_H 
 
@@ -9,14 +21,12 @@
 # include <limits.h>
 # include <stdlib.h>
 
-# define MS(ms) ((ms) * (1000))
-
-//############################################################### DATA_STRUCTURES
+//############################################################### 
+//			DATA_STRUCTURES
 //###############################################################
 
-typedef pthread_mutex_t t_fork;
+typedef pthread_mutex_t	t_fork;
 
-//				philo struct -> contains data about the state of each seperate philosopher;
 typedef struct s_philo {
 	pthread_t			thread;	
 	int32_t				state;
@@ -30,10 +40,9 @@ typedef struct s_philo {
 	pthread_mutex_t		meal_mutex;
 	pthread_mutex_t		state_mutex;
 	struct s_simulation	*sim;
-}				t_philo;
+}	t_philo;
 
-//				main struct -> contains data about the rules of the simulation;
-typedef struct 	s_simulation {
+typedef struct s_simulation {
 	pthread_t			monitor;
 	t_philo				*philo;
 	int64_t				start_time;
@@ -45,26 +54,18 @@ typedef struct 	s_simulation {
 	int32_t				number_of_available_forks;
 	t_fork				*forks;
 	bool				terminate;
-	pthread_mutex_t 	term_mutex;
-	pthread_mutex_t 	start_sim_mutex;
+	pthread_mutex_t		term_mutex;
+	pthread_mutex_t		start_sim_mutex;
 	pthread_mutex_t		msg_mutex;
-}				t_simulation;
-
-typedef enum e_error {
-	INCORRECT_ARG,
-	THREAD_CREATION,
-	MUTEX_INIT,
-} 			t_error;
+}	t_simulation;
 
 //###############################################################
-//		SOURCE FILES	
+//			SOURCE FILES	
 //###############################################################
-
-//			main.c
 
 //			utils_time.c
 int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
-int64_t		get_time();
+int64_t		get_time(void);
 int8_t		ft_sleep(int64_t ms);
 
 //			init_data.c
@@ -72,7 +73,7 @@ int8_t		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 
 //			philo_threads.c
 int8_t		print_action(t_philo *philo, const char *msg);
-void		*philo_routine(void* arg);
+void		*philo_routine(void *arg);
 
 //			monitor_thread.c
 void		monitor_routine(t_simulation *sim);

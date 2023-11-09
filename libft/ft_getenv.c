@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   ft_getenv.c                                       :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: fvan-wij <marvin@42.fr>                     +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/09 17:00:30 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/11/09 17:00:47 by fvan-wij      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	var_exists(char	**env, char *var)
@@ -18,11 +30,11 @@ static int	var_exists(char	**env, char *var)
 	return (-1);
 }
 
-char *ft_getenv(char *var_name, char **env)
+char	*ft_getenv(char *var_name, char **env)
 {
 	char	*value;
 	int		var_index;
-	
+
 	var_index = var_exists(env, var_name);
 	if (var_index == -1)
 		return (NULL);

@@ -69,8 +69,6 @@ SRC			:=	ft_atoi.c \
 			ft_strisalpha.c \
 			ft_getenv.c \
 			\
-			ft_strremove_2d.c \
-			ft_strreplace_2d.c \
 			ft_strappend_2d.c \
 			ft_strcpy_2d.c \
 			ft_putstr_2d.c \

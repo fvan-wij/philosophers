@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   mutex_management.c                                :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: fvan-wij <marvin@42.fr>                     +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/09 16:49:17 by fvan-wij      #+#    #+#                 */
+/*   Updated: 2023/11/09 16:49:27 by fvan-wij      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 #include "../libft/libft.h"
 
@@ -58,4 +70,3 @@ int8_t	destroy_mutex_data(t_simulation *sim)
 	pthread_mutex_destroy(&sim->start_sim_mutex);
 	return (0);
 }
-
