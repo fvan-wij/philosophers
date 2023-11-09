@@ -7,7 +7,7 @@
 static int	is_correct_argc(int argc)
 {
 	if (argc != 5 && argc != 6)
-		return(ft_putstr_fd("Error: this program takes at least 4 arguments or an optional 5th.", STDERR_FILENO), -1);
+		return(error_log("Error: this program takes at least 4 arguments or an optional 5th.", STDERR_FILENO), -1);
 	return (1);
 }
 

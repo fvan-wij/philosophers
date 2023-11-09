@@ -1,11 +1,8 @@
 #include "../includes/philo.h"
-#include <pthread.h>
 #include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
-#include <unistd.h>
 
-int8_t	print_action(t_philo *philo, const char *msg) //Check if sim should stop
+int8_t	print_action(t_philo *philo, const char *msg)
 {
 	bool	temp;
 	int64_t	time;
@@ -25,24 +22,4 @@ int8_t	print_action(t_philo *philo, const char *msg) //Check if sim should stop
 		pthread_mutex_unlock(&philo->sim->msg_mutex);
 		return (1);
 	}
-}
-
-int8_t	philo_eat(t_philo *philo)
-{
-	return (philo->eat_func(philo));
-}
-
-int8_t	philo_sleep(t_philo *philo)
-{
-	if (print_action(philo, "is sleeping\n") == -1)
-		return (-1);
-	ft_sleep(philo->sim->time_to_sleep);
-	return (1);
-}
-
-int8_t	philo_think(t_philo *philo)
-{
-		if (print_action(philo, "is thinking\n") == -1)
-			return (-1);
-		return (1);
 }

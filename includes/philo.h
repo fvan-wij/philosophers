@@ -51,34 +51,43 @@ typedef struct 	s_simulation {
 	pthread_mutex_t		msg_mutex;
 }				t_simulation;
 
+typedef enum e_error {
+	INCORRECT_ARGUMENTS,
+	THREAD_CREATION,
+	MUTEX_INITIALIZATION,
+} 			t_error;
+
 //###############################################################
 //		SOURCE FILES	
 //###############################################################
 
 //			main.c
 
-//			time.c
+//			utils_time.c
 int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time();
 int8_t		ft_sleep(int64_t ms);
 
-//			init.c
+//			init_data.c
 void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 
-//			threads.c
-int16_t		create_philo_threads(t_simulation *sim);
-int16_t		join_philo_threads(t_simulation *sim);
+//			philo_threads.c
 int8_t		print_action(t_philo *philo, const char *msg);
+void		*philo_routine(void* arg);
 
-//			monitor.c
+//			monitor_thread.c
 void		monitor_routine(t_simulation *sim);
 
-//			actions.c
-int8_t		philo_eat(t_philo *philo);
-int8_t		philo_sleep(t_philo *philo);
-int8_t		philo_think(t_philo *philo);
+//			eat_routines.c
 int8_t		plural_eat_routine(t_philo *philo);
 int8_t		singular_eat_routine(t_philo *philo);
+
+//			thread_management.c
+int8_t		create_philo_threads(t_simulation *sim);
+int8_t		join_philo_threads(t_simulation *sim);
+
+//			utils_misc.c
+int8_t		print_action(t_philo *philo, const char *msg);
 
 
 #endif

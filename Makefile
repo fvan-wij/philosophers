@@ -4,12 +4,14 @@ FLAGS		:= 	-Wall -Wextra -Werror
 LIBS		:= 	./libft/libft.a
 HEADERS		:= 	-I libft -I includes
 SRC			:= 	main.c \
-				time.c \
-				init.c \
-				threads.c \
-				actions.c \
-				monitor.c \
+				init_data.c \
+				philo_threads.c \
+				monitor_thread.c \
+				thread_management.c \
 				eat_routines.c \
+				utils_time.c \
+				utils_misc.c \
+				error.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
