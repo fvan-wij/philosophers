@@ -8,6 +8,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static	void	terminate_simulation(t_simulation *sim)
+{
+	pthread_mutex_lock(&sim->term_mutex);
+	sim->terminate = true;
+	pthread_mutex_unlock(&sim->term_mutex);
+}
+
 static bool	philo_is_dead(t_philo *philo)
 {
 	int64_t	time_ellapsed;
@@ -21,17 +28,12 @@ static bool	philo_is_dead(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (time_ellapsed >= philo->sim->time_to_die)
 	{
-		print_action(philo, "died\n");
+		terminate_simulation(philo->sim);
+		ft_sleep(4);
+		printf("%ld %d died\n", time_ellapsed, philo->id);
 		return (true);
 	}
 	return (false);
-}
-
-static	void	terminate_simulation(t_simulation *sim)
-{
-	pthread_mutex_lock(&sim->term_mutex);
-	sim->terminate = true;
-	pthread_mutex_unlock(&sim->term_mutex);
 }
 
 static bool philo_is_full(t_philo *philo)
@@ -56,11 +58,11 @@ void	monitor_routine(t_simulation *sim)
 		while (1)
 		{
 			if (philo_is_dead(&sim->philo[i]))
-				break ;
+				return ;
 			count += philo_is_full(&sim->philo[i]);
 			i++;
 			if (count == sim->number_of_philosophers)
-				break ;
+				return (terminate_simulation(sim));
 			else if (i >= sim->number_of_philosophers)
 			{
 				i = 0;
@@ -74,11 +76,10 @@ void	monitor_routine(t_simulation *sim)
 		while (1)
 		{
 			if (philo_is_dead(&sim->philo[i % sim->number_of_philosophers]))
-				break ;
+				return ;
 			if (i % sim->number_of_philosophers == 0)
 				ft_sleep(1);
 			i++;
 		}
 	}
-	terminate_simulation(sim);
 }
