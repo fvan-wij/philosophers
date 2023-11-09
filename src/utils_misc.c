@@ -1,4 +1,6 @@
 #include "../includes/philo.h"
+#include "../libft/libft.h"
+#include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -22,4 +24,16 @@ int8_t	print_action(t_philo *philo, const char *msg)
 		pthread_mutex_unlock(&philo->sim->msg_mutex);
 		return (1);
 	}
+}
+
+void	clean_simulation_data(t_simulation *sim)
+{
+	free(sim->philo);
+	free(sim->forks);
+}
+
+int8_t	error(const char *msg, int8_t err)
+{
+	ft_putstr_fd((char *)msg, STDERR_FILENO);
+	return (err);
 }

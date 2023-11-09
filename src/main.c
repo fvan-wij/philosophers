@@ -10,15 +10,12 @@ int	main(int argc, char *argv[])
 
 	if (init_simulation_data(argc, argv, &sim) == -1)
 		return (1);
-
-	// Create Philo trheads
-	create_philo_threads(&sim);
-	// Monitor simulaiton
+	if (create_philo_threads(&sim) == -1)
+		return (1);
 	monitor_routine(&sim);
-
-	// Join philo threads
-	join_philo_threads(&sim);
-	// Destroy mutexes
+	if (join_philo_threads(&sim) == -1)
+		return (1);
 	destroy_mutex_data(&sim);
+	clean_simulation_data(&sim);
 	return (0);
 }

@@ -91,11 +91,7 @@ int8_t		join_philo_threads(t_simulation *sim);
 
 //			utils_misc.c
 int8_t		print_action(t_philo *philo, const char *msg);
-
-//			error.c
+void		clean_simulation_data(t_simulation *sim);
 int8_t		error(const char *msg, int8_t err);
-
-//			free.c
-void		free_arr(void *arr, uint8_t n);
 
 #endif

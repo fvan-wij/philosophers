@@ -12,8 +12,6 @@ SRC			:= 	main.c \
 				eat_routines.c \
 				utils_time.c \
 				utils_misc.c \
-				error.c \
-				free.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj

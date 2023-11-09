@@ -53,33 +53,19 @@ void	monitor_routine(t_simulation *sim)
 
 	i = 0;
 	count = 0;
-	if (sim->number_of_times_each_philosopher_must_eat > 0)
+	while (1)
 	{
-		while (1)
+		if (philo_is_dead(&sim->philo[i]))
+			return ;
+		count += philo_is_full(&sim->philo[i]);
+		i++;
+		if (count == sim->number_of_philosophers)
+			return (terminate_simulation(sim));
+		else if (i >= sim->number_of_philosophers)
 		{
-			if (philo_is_dead(&sim->philo[i]))
-				return ;
-			count += philo_is_full(&sim->philo[i]);
-			i++;
-			if (count == sim->number_of_philosophers)
-				return (terminate_simulation(sim));
-			else if (i >= sim->number_of_philosophers)
-			{
-				i = 0;
-				count = 0;
-				ft_sleep(1);
-			}
-		}
-	}
-	else
-	{
-		while (1)
-		{
-			if (philo_is_dead(&sim->philo[i % sim->number_of_philosophers]))
-				return ;
-			if (i % sim->number_of_philosophers == 0)
-				ft_sleep(1);
-			i++;
+			i = 0;
+			count = 0;
+			ft_sleep(1);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 15:24:36 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 15:41:53 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/09 16:25:41 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ time_to_sleep should have at least a value of 1.\n", -1));
 
 static void	init_philosopher_states(t_simulation *sim)
 {
-	int16_t	i;
+	uint8_t	i;
 
 	i = 0;
 	while (i < sim->number_of_philosophers)
@@ -88,15 +88,8 @@ static int8_t	allocate_data(t_simulation *sim)
 	sim->forks = ft_calloc(sim->number_of_philosophers, sizeof(t_fork));
 	if (!sim->forks)
 	{
-		free(sim->forks);
-		free(sim->philo);
+		clean_simulation_data(sim);
 		return (error("Error: fork allocation failed.\n", -1));
-	}
-	if (init_mutex_data(sim) == -1)
-	{
-		free(sim->philo);
-		free(sim->forks);
-		return (error("Error: initializing mutex data failed.\n", -1));
 	}
 	return (0);
 }
@@ -110,5 +103,7 @@ int8_t	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 	if (allocate_data(sim) == -1)
 		return (-1);
 	init_philosopher_states(sim);
+	if (init_mutex_data(sim) == -1)
+		return (clean_simulation_data(sim), -1);
 	return (0);
 }
