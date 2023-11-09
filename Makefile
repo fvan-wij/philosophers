@@ -7,11 +7,13 @@ SRC			:= 	main.c \
 				init_data.c \
 				philo_threads.c \
 				monitor_thread.c \
+				mutex_management.c \
 				thread_management.c \
 				eat_routines.c \
 				utils_time.c \
 				utils_misc.c \
 				error.c \
+				free.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
@@ -32,11 +34,13 @@ Text_Off	= "\033[0m"			# Text Style Off
 Bold		= "\033[1m"			# Text Style Bold
 ######################################################
 
-ifdef DEBUG
+ifdef THREAD
 	COMPILER	+= -g -fsanitize=thread
-	MODE		+= $(Yellow) $(Bold) "(DEBUG MODE) Philosophers compiled succesfully ✅" $(Text_Off)
-endif
-ifndef DEBUG
+	MODE		+= $(Yellow) $(Bold) "(THREAD DEBUG MODE) Philosophers compiled succesfully ✅" $(Text_Off)
+else ifdef ADDRESS
+	COMPILER	+= -g -fsanitize=address
+	MODE		+= $(Yellow) $(Bold) "(ADDRESS DEBUG MODE) Philosophers compiled succesfully ✅" $(Text_Off)
+else 
 	MODE 		+= $(Green) $(Bold) "Philosophers compiled succesfully ✅" $(Text_Off)
 endif
 

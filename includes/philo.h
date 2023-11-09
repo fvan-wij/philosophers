@@ -11,8 +11,7 @@
 
 # define MS(ms) ((ms) * (1000))
 
-//###############################################################
-//		DATA_STRUCTURES
+//############################################################### DATA_STRUCTURES
 //###############################################################
 
 typedef pthread_mutex_t t_fork;
@@ -52,9 +51,9 @@ typedef struct 	s_simulation {
 }				t_simulation;
 
 typedef enum e_error {
-	INCORRECT_ARGUMENTS,
+	INCORRECT_ARG,
 	THREAD_CREATION,
-	MUTEX_INITIALIZATION,
+	MUTEX_INIT,
 } 			t_error;
 
 //###############################################################
@@ -69,7 +68,7 @@ int64_t		get_time();
 int8_t		ft_sleep(int64_t ms);
 
 //			init_data.c
-void		init_simulation_data(int argc, char *argv[], t_simulation *sim);
+int8_t		init_simulation_data(int argc, char *argv[], t_simulation *sim);
 
 //			philo_threads.c
 int8_t		print_action(t_philo *philo, const char *msg);
@@ -77,6 +76,10 @@ void		*philo_routine(void* arg);
 
 //			monitor_thread.c
 void		monitor_routine(t_simulation *sim);
+
+//			mutex_management.c
+int8_t		init_mutex_data(t_simulation *sim);
+int8_t		destroy_mutex_data(t_simulation *sim);
 
 //			eat_routines.c
 int8_t		plural_eat_routine(t_philo *philo);
@@ -89,5 +92,10 @@ int8_t		join_philo_threads(t_simulation *sim);
 //			utils_misc.c
 int8_t		print_action(t_philo *philo, const char *msg);
 
+//			error.c
+int8_t		error(const char *msg, int8_t err);
+
+//			free.c
+void		free_arr(void *arr, uint8_t n);
 
 #endif

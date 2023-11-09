@@ -8,18 +8,17 @@ int	main(int argc, char *argv[])
 {
 	t_simulation	sim;
 
-	//Pre-mortem
-	init_simulation_data(argc, argv, &sim);
-	pthread_mutex_init(&sim.msg_mutex, NULL);
-	pthread_mutex_init(&sim.term_mutex, NULL);
-	pthread_mutex_init(&sim.start_sim_mutex, NULL);
+	if (init_simulation_data(argc, argv, &sim) == -1)
+		return (1);
+
+	// Create Philo trheads
 	create_philo_threads(&sim);
+	// Monitor simulaiton
 	monitor_routine(&sim);
 
-	//Post-mortem
+	// Join philo threads
 	join_philo_threads(&sim);
-	pthread_mutex_destroy(&sim.term_mutex);
-	pthread_mutex_destroy(&sim.start_sim_mutex);
-	pthread_mutex_destroy(&sim.msg_mutex);
+	// Destroy mutexes
+	destroy_mutex_data(&sim);
 	return (0);
 }
