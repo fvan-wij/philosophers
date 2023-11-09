@@ -124,3 +124,7 @@ statically -> pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 dynamically -> pthread_mutex_init(&mutex);
 
 
+**The dining philosophers problem**
+The problem of the dining philosophers was designed to illustrate the challenges of avoiding deadlocks (a system state where no progress is possible).
+A naive approach would be to think unless one of the fork(s) are available, to eat for a fixed amount of time when both forks are held and to put the forks down once finished.
+

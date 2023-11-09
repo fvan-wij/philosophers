@@ -7,8 +7,11 @@
 
 static void	update_last_meal_time(t_philo *philo)
 {
+	int64_t time;
+
+	time = get_time();
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal = get_time();
+	philo->last_meal = time;
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
@@ -40,7 +43,7 @@ int8_t	plural_eat_routine(t_philo *philo)
 	print_action(philo, "has taken a fork\n");
 	print_action(philo, "is eating\n");
 	update_last_meal_time(philo);
-	ft_usleep(MS(philo->sim->time_to_eat));
+	ft_sleep(philo->sim->time_to_eat);
 	update_meal_count(philo);
 	poll_if_full(philo);
 	pthread_mutex_unlock(philo->fork_r);

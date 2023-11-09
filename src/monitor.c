@@ -11,10 +11,13 @@
 static bool	philo_is_dead(t_philo *philo)
 {
 	int64_t	time_ellapsed;
+	int64_t time;
 
 	time_ellapsed = 0;
+	time = 0;
+	time = get_time();
 	pthread_mutex_lock(&philo->meal_mutex);
-	time_ellapsed = time_ellapsed_in_ms(philo->last_meal, get_time());
+	time_ellapsed = time_ellapsed_in_ms(philo->last_meal, time);
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (time_ellapsed >= philo->sim->time_to_die)
 	{
@@ -50,7 +53,7 @@ void	monitor_routine(t_simulation *sim)
 	count = 0;
 	if (sim->number_of_times_each_philosopher_must_eat > 0)
 	{
-		while (ft_usleep(MS(1)) != -1)
+		while (1)
 		{
 			if (philo_is_dead(&sim->philo[i]))
 				break ;
@@ -62,18 +65,19 @@ void	monitor_routine(t_simulation *sim)
 			{
 				i = 0;
 				count = 0;
+				ft_sleep(1);
 			}
 		}
 	}
 	else
 	{
-		while (ft_usleep(MS(1)) != -1)
+		while (1)
 		{
-			if (philo_is_dead(&sim->philo[i]))
+			if (philo_is_dead(&sim->philo[i % sim->number_of_philosophers]))
 				break ;
+			if (i % sim->number_of_philosophers == 0)
+				ft_sleep(1);
 			i++;
-			if (i >= sim->number_of_philosophers)
-				i = 0;
 		}
 	}
 	terminate_simulation(sim);

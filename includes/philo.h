@@ -21,7 +21,7 @@ typedef pthread_mutex_t t_fork;
 typedef struct s_philo {
 	pthread_t			thread;	
 	int32_t				state;
-	int32_t				philo_id;
+	int32_t				id;
 	int32_t				meal_count;
 	int64_t				last_meal;
 	t_fork				*fork_l;
@@ -46,7 +46,6 @@ typedef struct 	s_simulation {
 	int32_t				number_of_available_forks;
 	t_fork				*forks;
 	bool				terminate;
-	pthread_mutex_t		start_time_mutex;
 	pthread_mutex_t 	term_mutex;
 	pthread_mutex_t 	start_sim_mutex;
 	pthread_mutex_t		msg_mutex;
@@ -61,7 +60,7 @@ typedef struct 	s_simulation {
 //			time.c
 int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time();
-int8_t		ft_usleep(int64_t useconds);
+int8_t		ft_sleep(int64_t ms);
 
 //			init.c
 void		init_simulation_data(int argc, char *argv[], t_simulation *sim);

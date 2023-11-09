@@ -19,14 +19,18 @@ int64_t	get_time()
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-int8_t	ft_usleep(int64_t usec)
+int8_t	ft_sleep(int64_t ms)
 {
-	int64_t	wake_up_time;
 	int8_t	err;
+	int64_t	wake_up_time;
 
-	wake_up_time = get_time() + usec / 1000;
 	err = 0;
-	while (get_time() <= wake_up_time)
-		err = usleep(250);
+	wake_up_time = get_time() + ms;
+	while (err != -1)
+	{
+		if (get_time() >= wake_up_time)
+			return (0);
+		err = usleep(500);
+	}
 	return (err);
 }
