@@ -1,5 +1,5 @@
 NAME		:=	philo
-COMPILER	:=	cc
+COMPILER	:=	cc -pthread
 FLAGS		:= 	-Wall -Wextra -Werror
 LIBS		:= 	./libft/libft.a
 HEADERS		:= 	-I libft -I includes
