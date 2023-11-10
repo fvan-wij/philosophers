@@ -6,12 +6,13 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:53:58 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:53:59 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/10 15:44:46 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 #include "../libft/libft.h"
+#include <stdint.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -42,6 +43,17 @@ void	clean_simulation_data(t_simulation *sim)
 {
 	free(sim->philo);
 	free(sim->forks);
+}
+
+void	clean_threads(t_simulation *sim, uint8_t n)
+{
+	while (n >= 0)
+	{
+		if (pthread_join(sim->philo[n].thread, NULL) != 0)
+			error("Error: thread creation failed!\n", -1);
+		n--;
+	}
+
 }
 
 int8_t	error(const char *msg, int8_t err)
