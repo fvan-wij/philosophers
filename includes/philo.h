@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:57:52 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:59:44 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 14:29:46 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,17 @@ typedef struct s_philo {
 typedef struct s_simulation {
 	pthread_t			monitor;
 	t_philo				*philo;
+	t_fork				*forks;
+	bool				terminate;
+	pthread_mutex_t		term_mutex;
+	pthread_mutex_t		start_sim_mutex;
+	pthread_mutex_t		msg_mutex;
 	int64_t				start_time;
 	int32_t				number_of_philosophers;
 	int32_t				time_to_die;
 	int32_t				time_to_eat;
 	int32_t				time_to_sleep;
 	int32_t				number_of_times_each_philosopher_must_eat;
-	int32_t				number_of_available_forks;
-	t_fork				*forks;
-	bool				terminate;
-	pthread_mutex_t		term_mutex;
-	pthread_mutex_t		start_sim_mutex;
-	pthread_mutex_t		msg_mutex;
 }	t_simulation;
 
 //###############################################################
@@ -94,5 +93,11 @@ int8_t		join_philo_threads(t_simulation *sim);
 int8_t		print_action(t_philo *philo, const char *msg);
 void		clean_simulation_data(t_simulation *sim);
 int8_t		error(const char *msg, int8_t err);
+int8_t		ft_isdigit_2d(char *arr[]);
+void		clean_threads(t_simulation *sim, int16_t n);
+
+//			utils_init.c
+int32_t		ft_atoi_overflow(const char *str, int *err);
+int8_t		set_sim_rules(t_simulation *sim, char *argv[]);
 
 #endif

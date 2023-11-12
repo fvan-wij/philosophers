@@ -1,8 +1,7 @@
 NAME		:=	philo
 COMPILER	:=	cc -pthread
 FLAGS		:= 	-Wall -Wextra -Werror
-LIBS		:= 	./libft/libft.a
-HEADERS		:= 	-I libft -I includes
+HEADERS		:= 	-I includes
 SRC			:= 	main.c \
 				init_data.c \
 				philo_threads.c \
@@ -12,6 +11,7 @@ SRC			:= 	main.c \
 				eat_routines.c \
 				utils_time.c \
 				utils_misc.c \
+				utils_init.c \
 
 SRCDIR 		:= 	./src
 OBJDIR 		:= 	./obj
@@ -38,6 +38,9 @@ ifdef THREAD
 else ifdef ADDRESS
 	COMPILER	+= -g -fsanitize=address
 	MODE		+= $(Yellow) $(Bold) "(ADDRESS DEBUG MODE) Philosophers compiled succesfully ✅" $(Text_Off)
+else ifdef VALGRIND
+	COMPILER	+= -g
+	MODE		+= $(Yellow) $(Bold) "(VALGRIND DEBUG MODE) Philosophers compiled succesfully ✅" $(Text_Off)
 else 
 	MODE 		+= $(Green) $(Bold) "Philosophers compiled succesfully ✅" $(Text_Off)
 endif
@@ -47,7 +50,6 @@ all: $(NAME)
 run: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(MAKE) -C libft
 	@$(COMPILER) $^ $(LIBS) -o $(NAME)
 	@echo $(MODE) 
 
@@ -62,12 +64,10 @@ $(OBJDIR):
 clean:
 	@rm -rf $(OBJDIR)
 	@echo $(Yellow) Cleaned object files! $(Text_Off)
-	@$(MAKE) -C libft clean
 
 fclean:	clean
 	@rm -f $(NAME) 
 	@echo $(Yellow) Cleaned executable! $(Text_Off)
-	@$(MAKE) -C libft fclean
 
 compile_cmd: fclean
 	@compiledb make; mv *.json ./data

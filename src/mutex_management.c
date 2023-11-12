@@ -6,12 +6,11 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:49:17 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:49:27 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 14:01:23 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include "../libft/libft.h"
 
 static int8_t	init_philo_mutex_data(t_simulation *sim)
 {

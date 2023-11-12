@@ -6,12 +6,11 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:49:34 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/10 15:43:40 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 14:02:05 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include "../libft/libft.h"
 #include <pthread.h>
 #include <stdbool.h>
 #include <stddef.h>

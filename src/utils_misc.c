@@ -6,12 +6,11 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:53:58 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/10 15:44:46 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 14:40:32 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include "../libft/libft.h"
 #include <stdint.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -45,19 +44,45 @@ void	clean_simulation_data(t_simulation *sim)
 	free(sim->forks);
 }
 
-void	clean_threads(t_simulation *sim, uint8_t n)
+void	clean_threads(t_simulation *sim, int16_t n)
 {
-	while (n >= 0)
-	{
-		if (pthread_join(sim->philo[n].thread, NULL) != 0)
-			error("Error: thread creation failed!\n", -1);
-		n--;
-	}
+	uint8_t	i;
 
+	i = 0;
+	while (i < n)
+	{
+		if (pthread_join(sim->philo[i].thread, NULL) != 0)
+			error("Error: thread joining failed.\n", -1);
+		i++;
+	}
 }
 
 int8_t	error(const char *msg, int8_t err)
 {
-	ft_putstr_fd((char *)msg, STDERR_FILENO);
+	if (msg)
+		printf("%s", msg);
 	return (err);
+}
+
+int8_t	ft_isdigit_2d(char *arr[])
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	j = 0;
+	while (arr[i])
+	{
+		while (arr[i][j])
+		{
+			if (arr[i][j] >= '0' && arr[i][j] <= '9')
+				j++;
+			else
+				return (error("Given arguments should contain \
+positive integers only.\n", -1));
+		}
+		j = 0;
+		i++;
+	}
+	return (1);
 }

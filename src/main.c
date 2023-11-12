@@ -6,12 +6,11 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:47:52 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:47:53 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 16:10:01 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include "../libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,7 +26,5 @@ int	main(int argc, char *argv[])
 	monitor_routine(&sim);
 	if (join_philo_threads(&sim) == -1)
 		return (1);
-	destroy_mutex_data(&sim);
-	clean_simulation_data(&sim);
 	return (0);
 }

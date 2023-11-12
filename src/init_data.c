@@ -6,12 +6,11 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 15:24:36 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:25:41 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 14:01:30 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include "../libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,28 +25,13 @@ static int	is_correct_argc(int argc)
 
 static int	validate_input(char *argv[], t_simulation *sim)
 {
-	sim->number_of_philosophers = ft_atoi(argv[1]);
-	sim->time_to_die = ft_atoi(argv[2]);
-	sim->time_to_eat = ft_atoi(argv[3]);
-	sim->time_to_sleep = ft_atoi(argv[4]);
-	sim->terminate = false;
-	if (argv[5])
-		sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
-	else
-		sim->number_of_times_each_philosopher_must_eat = 0;
-	if (sim->number_of_philosophers > 200
-		|| sim->time_to_die > 2147483647
-		|| sim->time_to_eat > 2147483647
-		|| sim->time_to_sleep > 2147483647
-		|| sim->number_of_times_each_philosopher_must_eat > 2147483647)
-		return (ft_putstr_fd("Error: input has exceeded the maximum integer\
-size (2,147,483,647).\n", STDERR_FILENO), -1);
+	if (set_sim_rules(sim, argv) == -1)
+		return (-1);
 	if (sim->number_of_philosophers >= 1 && sim->time_to_die >= 1
 		&& sim->time_to_eat >= 1 && sim->time_to_sleep >= 1)
 		return (1);
 	else
-		return (error("Error: n_of_philosophers, time_to_die, time_to_eat and\
-time_to_sleep should have at least a value of 1.\n", -1));
+		return (error("Error: arguments should have a value of at least 1.\n", -1));
 }
 
 static void	init_philosopher_states(t_simulation *sim)
@@ -79,13 +63,13 @@ static void	init_philosopher_states(t_simulation *sim)
 
 static int8_t	allocate_data(t_simulation *sim)
 {
-	sim->philo = ft_calloc(sim->number_of_philosophers, sizeof(t_philo));
+	sim->philo = malloc(sim->number_of_philosophers * sizeof(t_philo));
 	if (!sim->philo)
 	{
 		free(sim->philo);
 		return (error("Error: philo struct allocation failed.\n", -1));
 	}
-	sim->forks = ft_calloc(sim->number_of_philosophers, sizeof(t_fork));
+	sim->forks = malloc(sim->number_of_philosophers * sizeof(t_fork));
 	if (!sim->forks)
 	{
 		clean_simulation_data(sim);

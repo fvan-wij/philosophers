@@ -6,14 +6,12 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:46:22 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:47:37 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/12 14:05:09 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 #include <pthread.h>
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
 
