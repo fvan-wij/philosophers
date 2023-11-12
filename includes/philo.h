@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:57:52 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/12 14:29:46 by flip          ########   odam.nl         */
+/*   Updated: 2023/11/12 17:41:06 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 //############################################################### 
 //			DATA_STRUCTURES
 //###############################################################
+
+#define MIN_VAL 60
 
 typedef pthread_mutex_t	t_fork;
 
@@ -56,6 +58,7 @@ typedef struct s_simulation {
 	int32_t				time_to_eat;
 	int32_t				time_to_sleep;
 	int32_t				number_of_times_each_philosopher_must_eat;
+	int32_t				delay;
 }	t_simulation;
 
 //###############################################################

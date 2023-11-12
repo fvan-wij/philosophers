@@ -6,12 +6,13 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:52:49 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/12 16:09:08 by flip          ########   odam.nl         */
+/*   Updated: 2023/11/12 16:57:44 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 #include <unistd.h>
+#include <stdio.h>
 
 static void	cleanup_program(t_simulation *sim, int n)
 {
@@ -54,6 +55,14 @@ int8_t	join_philo_threads(t_simulation *sim)
 	err = 0;
 	while (i < sim->number_of_philosophers)
 	{
+		// if (pthread_detach(sim->philo[i].thread) != 0)
+		// {
+		// 	ft_sleep(10);
+		// 	// pthread_join(sim->philo[i].thread, NULL);
+		// 	pthread_detach(sim->philo[i].thread);
+		// 	error("Error: could not detach thread!\n", 0);
+		// 	err = -1;
+		// }
 		if (pthread_join(sim->philo[i].thread, NULL) != 0)
 		{
 			ft_sleep(10);

@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:49:34 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/12 14:02:05 by flip          ########   odam.nl         */
+/*   Updated: 2023/11/12 17:10:25 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	*philo_routine(void *arg)
 		philo->eat_func = &plural_eat_routine;
 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
+	print_action(philo, "is thinking\n");	
 	if (philo->sim->terminate)
 		return (NULL);
 	if (philo->id % 2 != 0)

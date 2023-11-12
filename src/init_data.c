@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 15:24:36 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/12 14:01:30 by flip          ########   odam.nl         */
+/*   Updated: 2023/11/12 17:43:51 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ static int	validate_input(char *argv[], t_simulation *sim)
 		return (error("Error: arguments should have a value of at least 1.\n", -1));
 }
 
-static void	init_philosopher_states(t_simulation *sim)
+static void	init_philosopher_states(t_simulation *sim, uint8_t i)
 {
-	uint8_t	i;
-
-	i = 0;
 	while (i < sim->number_of_philosophers)
 	{
 		sim->philo[i].sim = sim;
@@ -59,6 +56,10 @@ static void	init_philosopher_states(t_simulation *sim)
 		sim->time_to_eat = sim->time_to_die;
 	if (sim->time_to_sleep >= sim->time_to_die)
 		sim->time_to_sleep = sim->time_to_die;
+	if (sim->time_to_eat < 5)
+		sim->delay =5;
+	else
+		sim->delay = sim->time_to_eat / 2;
 }
 
 static int8_t	allocate_data(t_simulation *sim)
@@ -86,7 +87,7 @@ int8_t	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 		return (-1);
 	if (allocate_data(sim) == -1)
 		return (-1);
-	init_philosopher_states(sim);
+	init_philosopher_states(sim, 0);
 	if (init_mutex_data(sim) == -1)
 		return (clean_simulation_data(sim), -1);
 	return (0);
