@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:46:22 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 18:06:02 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/20 12:38:33 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ static void	update_last_meal_time(t_philo *philo)
 		philo->meal_count++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
-
-// static void	update_meal_count(t_philo *philo)
-// {
-// 	if (philo->sim->number_of_times_each_philosopher_must_eat > 0)
-// 	{
-// 		pthread_mutex_lock(&philo->meal_mutex);
-// 		philo->meal_count++;
-// 		pthread_mutex_unlock(&philo->meal_mutex);
-// 	}
-// }
 
 static void	poll_if_full(t_philo *philo)
 {
@@ -57,7 +47,6 @@ int8_t	plural_eat_routine(t_philo *philo)
 	print_action(philo, "has taken a fork\n");
 	update_last_meal_time(philo);
 	print_action(philo, "is eating\n");
-	// update_meal_count(philo);
 	poll_if_full(philo);
 	ft_sleep(philo->sim->time_to_eat);
 	pthread_mutex_unlock(philo->fork_r);
@@ -73,7 +62,6 @@ int8_t	plural_eat_routine2(t_philo *philo)
 	print_action(philo, "has taken a fork\n");
 	update_last_meal_time(philo);
 	print_action(philo, "is eating\n");
-	// update_meal_count(philo);
 	poll_if_full(philo);
 	ft_sleep(philo->sim->time_to_eat);
 	pthread_mutex_unlock(philo->fork_l);

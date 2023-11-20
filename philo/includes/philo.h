@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:57:52 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 14:14:42 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/20 12:20:29 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_simulation {
 //###############################################################
 
 //			utils_time.c
-int64_t		time_ellapsed_in_ms(int64_t start_time, int64_t end_time);
+int64_t		time_elapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time(void);
 int8_t		ft_sleep(int64_t ms);
 

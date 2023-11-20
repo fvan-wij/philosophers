@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:53:58 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 13:48:50 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/20 12:21:35 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int8_t	print_action(t_philo *philo, const char *msg)
 	{
 		pthread_mutex_lock(&philo->sim->msg_mutex);
 		time = get_time();
-		elapsed_time = time_ellapsed_in_ms(philo->sim->start_time, time);
+		elapsed_time = time_elapsed_in_ms(philo->sim->start_time, time);
 		printf("%ld %d %s", elapsed_time, philo->id, msg);
 		pthread_mutex_unlock(&philo->sim->msg_mutex);
 		return (1);

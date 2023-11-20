@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:54:12 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/09 16:55:01 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/20 12:20:09 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-int64_t	time_ellapsed_in_ms(int64_t start_time, int64_t end_time)
+int64_t	time_elapsed_in_ms(int64_t start_time, int64_t end_time)
 {
 	int64_t	delta_time;
 

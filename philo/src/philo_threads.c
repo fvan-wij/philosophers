@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:49:34 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 18:42:27 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/20 12:55:47 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int8_t	philo_think(t_philo *philo)
 {
 	if (print_action(philo, "is thinking\n") == -1)
 		return (-1);
-	return (1);
+	return (ft_sleep(1), 1);
 }
 
 void	*philo_routine(void *arg)
@@ -46,13 +46,13 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *) arg;
 	if (philo->sim->number_of_philosophers == 1)
 		philo->eat_func = &singular_eat_routine;
-	else if (philo->id == philo->sim->number_of_philosophers)
-		philo->eat_func = &plural_eat_routine2;
-	else
+	else if (philo->id != philo->sim->number_of_philosophers)
 		philo->eat_func = &plural_eat_routine;
+	else
+		philo->eat_func = &plural_eat_routine2;
 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
-	print_action(philo, "is thinking\n");	
+	print_action(philo, "is thinking\n");
 	if (philo->sim->terminate)
 		return (NULL);
 	if (philo->id % 2 == 0)
@@ -60,60 +60,10 @@ void	*philo_routine(void *arg)
 	while (1)
 	{
 		if (philo_eat(philo) == -1)
-			break ;
+			return (NULL);
 		if (philo_sleep(philo) == -1)
-			break ;
+			return (NULL);
 		if (philo_think(philo) == -1)
-			break ;
+			return (NULL);
 	}
-	return (NULL);
 }
-
-// void	*philo_routine(void *arg)
-// {
-// 	t_philo	*philo;
-//
-// 	philo = (t_philo *) arg;
-// 	if (philo->sim->number_of_philosophers == 1)
-// 		philo->eat_func = &singular_eat_routine;
-// 	else if (philo->id == philo->sim->number_of_philosophers)
-// 	{
-// 		printf("philo-id: %d\n", philo->id);
-// 		philo->eat_func = &plural_eat_routine2;
-// 	}
-// 	// else if (philo->id % 2 == 0)
-// 	// 	philo->eat_func = &plural_eat_routine;
-// 	else
-// 		philo->eat_func = &plural_eat_routine;
-// 	pthread_mutex_lock(&philo->sim->start_sim_mutex);
-// 	pthread_mutex_unlock(&philo->sim->start_sim_mutex);
-// 	if (philo->sim->terminate)
-// 		return (NULL);
-// 	if (philo->id % 2 == 0)
-// 	{
-// 		while (1)
-// 		{
-// 			if (philo_sleep(philo) == -1)
-// 				break ;
-// 			if (philo_think(philo) == -1)
-// 				break ;
-// 			if (philo_eat(philo) == -1)
-// 				break ;
-// 		}
-//
-// 	}
-// 	else 
-// 	{
-// 		while (1)
-// 		{
-// 			if (philo_think(philo) == -1)
-// 				break ;
-// 			if (philo_eat(philo) == -1)
-// 				break ;
-// 			if (philo_sleep(philo) == -1)
-// 				break ;
-// 		}
-// 	
-// 	}
-// 	return (NULL);
-// }

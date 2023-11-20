@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:48:04 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 18:43:16 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/20 12:41:34 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,23 @@ static	void	terminate_simulation(t_simulation *sim)
 
 static bool	philo_is_dead(t_philo *philo)
 {
-	int64_t	time_ellapsed;
+	int64_t	time_elapsed;
 	int64_t	time;
+	bool	isdead;
 
-	time_ellapsed = 0;
-	time = 0;
+	isdead = false;
 	time = get_time();
-	bool isdead = false;
 	pthread_mutex_lock(&philo->meal_mutex);
-	time_ellapsed = time_ellapsed_in_ms(philo->last_meal, time);
-	if (time_ellapsed >= philo->sim->time_to_die)
+	time_elapsed = time_elapsed_in_ms(philo->last_meal, time);
+	if (time_elapsed >= philo->sim->time_to_die)
 		isdead = true;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (isdead)
 	{
 		terminate_simulation(philo->sim);
 		ft_sleep(4);
-		printf("%ld %d died\n", time_ellapsed_in_ms(philo->sim->start_time, time), philo->id);
-		// print_action(philo, "%ld %d died\n");
+		printf("%ld %d died\n",
+			time_elapsed_in_ms(philo->sim->start_time, time), philo->id);
 		return (true);
 	}
 	return (false);
@@ -80,7 +79,6 @@ void	monitor_routine(t_simulation *sim)
 		{
 			i = 0;
 			count = 0;
-			// ft_sleep(250);
 			ft_sleep(1);
 		}
 	}
