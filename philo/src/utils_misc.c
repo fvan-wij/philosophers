@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:53:58 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/20 12:21:35 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/26 15:29:31 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
+
+#define ERR_JOIN "Error: thread joining failed.\n"
+#define ERR_INPUT "Error: given arguments should contain \
+	positive integers only.\n"
 
 int8_t	print_action(t_philo *philo, const char *msg)
 {
@@ -40,8 +44,10 @@ int8_t	print_action(t_philo *philo, const char *msg)
 
 void	clean_simulation_data(t_simulation *sim)
 {
-	free(sim->philo);
-	free(sim->forks);
+	if (sim->philo)
+		free(sim->philo);
+	if (sim->forks)
+		free(sim->forks);
 }
 
 void	clean_threads(t_simulation *sim, int16_t n)
@@ -52,7 +58,7 @@ void	clean_threads(t_simulation *sim, int16_t n)
 	while (i < n)
 	{
 		if (pthread_join(sim->philo[i].thread, NULL) != 0)
-			error("Error: thread joining failed.\n", -1);
+			error(ERR_JOIN, -1);
 		i++;
 	}
 }
@@ -78,8 +84,7 @@ int8_t	ft_isdigit_2d(char *arr[])
 			if (arr[i][j] >= '0' && arr[i][j] <= '9')
 				j++;
 			else
-				return (error("Error: given arguments should contain \
-positive integers only.\n", -1));
+				return (error(ERR_INPUT, -1));
 		}
 		j = 0;
 		i++;

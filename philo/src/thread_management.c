@@ -6,13 +6,16 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:52:49 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 14:30:11 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/26 15:23:23 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 #include <unistd.h>
 #include <stdio.h>
+
+#define ERR_THRD "Error: thread creation failed\n"
+#define ERR_JOIN "Error: could not join thread!\n"
 
 static void	cleanup_program(t_simulation *sim, int n)
 {
@@ -32,8 +35,7 @@ int8_t	create_philo_threads(t_simulation *sim)
 	{
 		if (pthread_create(&sim->philo[i].thread, NULL,
 				&philo_routine, &sim->philo[i]) != 0)
-			return (cleanup_program(sim, i), error("Error: \
-thread creation failed!\n", -1));
+			return (cleanup_program(sim, i), error(ERR_THRD, -1));
 		i++;
 	}
 	sim->start_time = get_time();
@@ -60,7 +62,7 @@ int8_t	join_philo_threads(t_simulation *sim)
 		{
 			ft_sleep(10);
 			pthread_join(sim->philo[i].thread, NULL);
-			error("Error: could not join thread!\n", 0);
+			error(ERR_JOIN, 0);
 			err = -1;
 		}
 		i++;

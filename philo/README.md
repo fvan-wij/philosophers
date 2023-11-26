@@ -17,6 +17,7 @@
 - [x] Fix bug where the simulation should stop, but some philospohers still continue with their actions.
 - [x] 1 philo case.
 - [x] 200+ philo case.
+- [ ] Fix case where philosophers have a 50% chance of dying when tts is 1/2 of tte
 
 ### Sources
 - https://github.com/rangaeeeee/books-raspberrypimagazines/blob/master/The%20Linux%20Programming%20Interface-Michael%20Kerrisk.pdf

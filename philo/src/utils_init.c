@@ -6,7 +6,7 @@
 /*   By: flip <marvin@42.fr>                         +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/12 13:53:06 by flip          #+#    #+#                 */
-/*   Updated: 2023/11/14 14:25:52 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/26 15:26:19 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
+
+#define ERR_INPUT "Error: simulation only accepts input \
+between 1 and INT_MAX.\n"
+#define ERR_MAXPH "Error: maximum number of philosophers \
+(200) exceeded.\n"
 
 static int32_t	skip_whitespace(int32_t i, char *int_str)
 {
@@ -78,29 +83,24 @@ int32_t	ft_atoi_overflow(const char *str, int8_t *err)
 
 int8_t	set_sim_rules(t_simulation *sim, char *argv[])
 {
-	char *const	msg = {"Error: simulation only accepts input \
-between 1 and INT_MAX.\n"};
-	char *const	msg2 = {"Error: maximum number of philosophers \
-(200) exceeded.\n"};
-
 	if (set_val(&sim->number_of_philosophers, argv[1]) == -1)
-		return (error(msg, -1));
+		return (error(ERR_INPUT, -1));
 	if (set_val(&sim->time_to_die, argv[2]) == -1)
-		return (error(msg, -1));
+		return (error(ERR_INPUT, -1));
 	if (set_val(&sim->time_to_eat, argv[3]) == -1)
-		return (error(msg, -1));
+		return (error(ERR_INPUT, -1));
 	if (set_val(&sim->time_to_sleep, argv[4]) == -1)
-		return (error(msg, -1));
+		return (error(ERR_INPUT, -1));
 	if (argv[5])
 	{
 		if (set_val(&sim->number_of_times_each_philosopher_must_eat,
 				argv[5]) == -1)
-			return (error(msg, -1));
+			return (error(ERR_INPUT, -1));
 	}
 	else
 		sim->number_of_times_each_philosopher_must_eat = 0;
 	if (sim->number_of_philosophers > 200)
-		return (error(msg2, -1));
+		return (error(ERR_MAXPH, -1));
 	sim->terminate = false;
 	return (0);
 }

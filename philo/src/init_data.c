@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 15:24:36 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/14 13:50:54 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/11/26 20:55:08 by flip          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define ERR_OPT "Error: this program takes at least \
+4 arguments or an optional 5th."
+#define ERR_INPUT "Error: arguments should have a value of at \
+least 1.\n"
+#define ERR_ALLOC_PH "Error: philo struct allocation failed.\n"
+#define ERR_ALLOC_FRK "Error: fork allocation failed.\n"
+#define ERR_INIT_MTX "Error: mutex initialization failed.\n"
+
 static int	is_correct_argc(int argc)
 {
 	if (argc != 5 && argc != 6)
-		return (error("Error: this program takes at least \
-4 arguments or an optional 5th.", -1));
+		return (error(ERR_OPT, -1));
 	return (1);
 }
 
@@ -31,8 +38,7 @@ static int	validate_input(char *argv[], t_simulation *sim)
 		&& sim->time_to_eat >= 1 && sim->time_to_sleep >= 1)
 		return (1);
 	else
-		return (error("Error: arguments should have a value of at \
-least 1.\n", -1));
+		return (error(ERR_INPUT, -1));
 }
 
 static void	init_philosopher_states(t_simulation *sim, uint8_t i)
@@ -69,13 +75,13 @@ static int8_t	allocate_data(t_simulation *sim)
 	if (!sim->philo)
 	{
 		free(sim->philo);
-		return (error("Error: philo struct allocation failed.\n", -1));
+		return (error(ERR_ALLOC_PH, -1));
 	}
 	sim->forks = malloc(sim->number_of_philosophers * sizeof(t_fork));
 	if (!sim->forks)
 	{
 		clean_simulation_data(sim);
-		return (error("Error: fork allocation failed.\n", -1));
+		return (error(ERR_ALLOC_FRK, -1));
 	}
 	return (0);
 }
@@ -90,6 +96,6 @@ int8_t	init_simulation_data(int argc, char *argv[], t_simulation *sim)
 		return (-1);
 	init_philosopher_states(sim, 0);
 	if (init_mutex_data(sim) == -1)
-		return (clean_simulation_data(sim), -1);
+		return (clean_simulation_data(sim), error(ERR_INIT_MTX, -1));
 	return (0);
 }
