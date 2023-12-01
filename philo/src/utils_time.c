@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:54:12 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/20 12:20:09 by fvan-wij      ########   odam.nl         */
+/*   Updated: 2023/12/01 11:16:21 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,24 @@ int8_t	ft_sleep(int64_t ms)
 		err = usleep(500);
 	}
 	return (err);
+}
+
+void	pray_before_meal(t_philo *philo)
+{
+	int64_t	time_to_die;
+	int64_t	diff;
+	float	multiplier;
+
+	if (philo->sim->time_to_sleep >= philo->sim->time_to_eat)
+		return ;
+	pthread_mutex_lock(&philo->meal_mutex);
+	time_to_die = time_elapsed_in_ms(philo->last_meal, get_time());
+	pthread_mutex_unlock(&philo->meal_mutex);
+	diff = time_to_die - philo->sim->time_to_eat;
+	if (philo->sim->time_to_sleep < 90)
+		multiplier = 2.5;
+	else
+		multiplier = 1.25;
+	if (diff > 0)
+		ft_sleep(diff * multiplier);
 }

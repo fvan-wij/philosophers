@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:57:52 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/26 15:02:23 by flip          ########   odam.nl         */
+/*   Updated: 2023/12/01 11:16:01 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_simulation {
 int64_t		time_elapsed_in_ms(int64_t start_time, int64_t end_time);
 int64_t		get_time(void);
 int8_t		ft_sleep(int64_t ms);
+void		pray_before_meal(t_philo *philo);
 
 //			init_data.c
 int8_t		init_simulation_data(int argc, char *argv[], t_simulation *sim);

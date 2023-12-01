@@ -6,7 +6,7 @@
 /*   By: fvan-wij <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 16:49:17 by fvan-wij      #+#    #+#                 */
-/*   Updated: 2023/11/26 20:56:10 by flip          ########   odam.nl         */
+/*   Updated: 2023/12/01 11:16:44 by fvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	destroy_on_failure(t_simulation *sim, int16_t meal_count,
 		pthread_mutex_destroy(&sim->philo[state_count].meal_mutex);
 	while (fork_count-- > 0)
 		pthread_mutex_destroy(&sim->forks[fork_count]);
-
 }
 
 static int8_t	init_philo_mutex_data(t_simulation *sim)
